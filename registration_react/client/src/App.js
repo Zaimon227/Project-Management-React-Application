@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import './App.css'
 
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <ToastContainer position="top-center" />
         <Routes>
           <Route exact path="/" element={<Login />}/>
+          <Route path="/signup" element={<Signup />}/>
         </Routes>
       </div>
     </BrowserRouter>
