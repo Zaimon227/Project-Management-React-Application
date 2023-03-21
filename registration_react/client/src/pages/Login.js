@@ -10,8 +10,17 @@ const Login = () => {
             <div className="form--container">
                 <h1 className="form--title">Welcome!</h1>
                 <form>
-                    <input/>
-                    <input type="password"/>
+                    <input
+                        type="text"
+                        id="email"
+                        name="email" 
+                        placeholder="Email"
+                    />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password" 
+                        placeholder="Password"/>
                     <input className="form--submit" type="submit" value="LOGIN"/>
                     <br/>
                     <label className="form--signuplabel">Don't have an account yet?</label>

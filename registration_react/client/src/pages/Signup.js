@@ -10,12 +10,27 @@ const Login = () => {
             <div className="form--signup-container">
                 <h1 className="form--title">Sign up</h1>
                 <form>
-                    <input/>
-                    <input/>
-                    <input/>
+                    <input className="form--signup-input"
+                        type="text"
+                        id="firstname"
+                        name="firstname" 
+                        placeholder="First Name"
+                    />
+                    <input className="form--signup-input"
+                        type="text"
+                        id="middlename"
+                        name="middlename" 
+                        placeholder="Middle Name"
+                    />
+                    <input className="form--signup-input"
+                        type="text"
+                        id="lastname"
+                        name="lastname" 
+                        placeholder="Last Name"
+                    />
                     <select className="form--signup-gender" id="gender" name="gender">
                         <option value="Male">Male</option>
-                        <option value="Gender">Male</option>
+                        <option value="Female">Female</option>
                     </select>
                     <input className="form--signup-datepicker" type="date"/>
                     <select className="form--signup-select" id="gender" name="gender">
@@ -30,13 +45,27 @@ const Login = () => {
                         <option value="Male">Male</option>
                         <option value="Gender">Male</option>
                     </select>
-                    <input/>
-                    <input type="password"/>
-                    <input className="form--submit" type="submit" value="LOGIN"/>
-                    <br/>
-                    <label className="form--signuplabel">Don't have an account yet?</label>
-                    <Link to='/signup'>
-                    <input className="form--signup" type="button" value="Signup"/>
+                    <input className="form--signup-input"
+                        type="text"
+                        id="email"
+                        name="email" 
+                        placeholder="Email"
+                    />
+                    <input className="form--signup-input" 
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                    />
+                    <input className="form--signup-input" 
+                        type="password"
+                        id="confirmpassword"
+                        name="confirmpassword" 
+                        placeholder="Confirm Password"
+                    />
+                    <input className="form--signup-submit" type="submit" value="SIGN UP"/>
+                    <Link to='/'>
+                    <input className="form--signup-back" type="button" value="BACK"/>
                     </Link>
                 </form>
             </div>
