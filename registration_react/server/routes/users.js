@@ -11,6 +11,18 @@ router.get('/', async (req, res) => {
     res.status(200).json(user)
 })
 
+router.post('/login', async (req, res) => {
+
+    const { email, password } = req.body
+
+    const user = await User.query()
+        .select('userid')
+        .where('email', email)
+        .where('password', password);
+        
+    res.status(200).json(user)
+})
+
 router.post('/', (req, res) => {
     res.send({data: "User Created"});
 })
