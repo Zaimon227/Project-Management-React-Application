@@ -5,6 +5,11 @@ import { ToastContainer } from 'react-toastify'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Home from './pages/Home'
+import Users from './pages/Users'
+import Phonebook from './pages/Phonebook.js'
+import Religion from './pages/Religion.js'
+import Nationality from './pages/Nationality.js'
+import CivilStatus from './pages/CivilStatus.js'
 
 function App() {
   return (
@@ -15,6 +20,11 @@ function App() {
           <Route exact path="/" element={<Login />}/>
           <Route path="/signup" element={<Signup />}/>
           <Route path="/home" element={<Home />}/>
+          <Route path="/users" element={<Users />}/>
+          <Route path="/phonebook" element={<Phonebook />}/>
+          <Route path="/religion" element={<Religion />}/>
+          <Route path="/nationality" element={<Nationality />}/>
+          <Route path="/civilstatus" element={<CivilStatus />}/>
         </Routes>
       </div>
     </BrowserRouter>
@@ -22,31 +32,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

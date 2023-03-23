@@ -1,8 +1,21 @@
 const express = require("express")
 const router = express.Router()
+const Contact = require('../models/contactModel')
 
-router.get('/', (req, res) => {
-    res.send({data: "Here is your data"});
+router.get('/', async (req, res) => {
+    const contact = await Contact.query()
+        .select( 
+            "id",
+            "name",
+            "address",
+            "email",
+            "contact",
+        )
+
+        console.log(contact[0] instanceof Contact); // --> true
+        // console.log('there are', user.length, 'users in total');
+
+    res.status(200).json(contact)
 })
 
 router.post('/', (req, res) => {

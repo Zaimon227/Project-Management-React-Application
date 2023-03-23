@@ -1,12 +1,27 @@
 const express = require("express")
 const router = express.Router()
+const { raw } = require('objection');
 const User = require('../models/userModel')
 
+
 router.get('/', async (req, res) => {
-    const user = await User.query();
+    const user = await User.query()
+        .select(
+            raw("CONCAT(lastname, ', ', firstname, ' ', middlename)").as('completename'),
+            "userid",
+            "gender",
+            "birthdate",
+            "tbReligion.religionname",
+            "tbNationality.nationalityname",
+            "tbCivilStatus.civilstatusname",
+            "email"
+            )
+        .innerJoin('tbReligion', 'tbReligion.religionid', 'tbUsers.religionid')
+        .innerJoin('tbNationality', 'tbNationality.nationalityid', 'tbUsers.nationalityid')
+        .innerJoin('tbCivilStatus', 'tbCivilStatus.civilstatusid', 'tbUsers.civilstatusid')
 
         console.log(user[0] instanceof User); // --> true
-        console.log('there are', user.length, 'users in total');
+        // console.log('there are', user.length, 'users in total');
 
     res.status(200).json(user)
 })

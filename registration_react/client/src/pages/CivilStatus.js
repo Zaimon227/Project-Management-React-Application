@@ -4,13 +4,13 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import '../styles/Navbar.css'
 
-const Home = () => {
+const CivilStatus = () => {
     return (
         <div className="home--main">
             <div className="menubar">
                 <ul>
                     <Link to="/home">
-                    <li className="menubar--current">
+                    <li>
                         <img 
                             src={require('../images/home.png')}
                             className="menubar--icon"
@@ -39,7 +39,7 @@ const Home = () => {
                         Phonebook
                     </li>
                     </Link>
-                    <li className="menubar--maintenance">
+                    <li className="menubar--maintenance menubar--current">
                         <img 
                             src={require('../images/maintenance.png')}
                             className="menubar--icon"
@@ -50,7 +50,7 @@ const Home = () => {
                             <ul>
                                 <Link to="/religion"><li>Religion</li></Link>
                                 <Link to="/nationality"><li>Nationality</li></Link>
-                                <Link to="/civilstatus"><li>Civil Status</li></Link>
+                                <Link to="/civilstatus"><li className="menubar--current">Civil Status</li></Link>
                             </ul>
                         </div>
                     </li>
@@ -66,10 +66,10 @@ const Home = () => {
                 </ul>
             </div>
             <div>
-                <h2>Welcome to the home page</h2>
+                <h2>Welcome to the Civil Status page</h2>
             </div>
         </div>
     )
 }
 
-export default Home
+export default CivilStatus
