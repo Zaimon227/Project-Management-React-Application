@@ -1,18 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.home--main {
+    padding: 0;
+    margin: 0;
+}
+
 .home--menubar {
     background: #32a852;
-    text-align: center;
+    text-align: right;
+    margin: 0;
+    padding: 0;
 }
 
 .home--menubar ul {
     display: inline-flex;
     list-style: none;
     color: #ffffff;
+    
+    font-size: 14px;
 }
 
 .home--menubar ul li {
-    width: 120px;
-    margin: 15px;
+    width: 160px;
     padding: 15px;
+    text-align: center;
+    transition-duration: 0.4s;
+}
+
+.home--menubar ul li:hover {
+    background-color: #196b2f;
+}
+
+.menubar--current {
+    background-color: #0f2e18;
+}
+
+.menubar--maintenance {
+    margin-right: 80px;
+}
+
+.maintenance--submenu {
+    display: none;
+}
+
+.menubar--maintenance:hover .maintenance--submenu {
+    display: block;
+    background-color: #32a852;
+    position: absolute;
+    margin-top: 15px;
+    margin-left: -15px;
+}
+
+.menubar--maintenance:hover .maintenance--submenu ul {
+    display: block;
+}
+
+.menubar--icon {
+    width: 15px;
+    margin-right: 10px;
+}
+
+.menubar--logout {
+    margin-right: 30px;
+    border: none;
+    background-color: #32a852;
+}
+
+.menubar--logout-icon {
+    width: 20px;
 }
 
 li {

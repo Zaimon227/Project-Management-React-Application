@@ -3,10 +3,10 @@
 html {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 input {
-    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     padding: 5px 10px;
     margin: 15px 0;
@@ -41,6 +41,7 @@ form {
     width: 500px;
     padding: 0px;
     border-radius: 5px;
+    text-align: center;
     box-shadow:
     rgba(0, 0, 0, 0.25) 0px 54px 55px, 
     rgba(0, 0, 0, 0.12) 0px -12px 30px, 
@@ -76,7 +77,7 @@ form {
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    transition-duration: 0.4s;;
+    transition-duration: 0.4s;
 }
 
 .form--submit:hover {

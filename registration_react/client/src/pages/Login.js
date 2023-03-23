@@ -49,7 +49,7 @@ const Login = () => {
         <div className="form--background">
             <div className="form--container">
                 <h1 className="form--title">Welcome!</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <input
                         type="text"
                         id="email"
