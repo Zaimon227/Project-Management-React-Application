@@ -4,12 +4,13 @@
 }
 
 .table--title {
-    margin: 20px 0px 20px 100px;
+    margin: 30px 0px 20px 100px;
+    float: left;
     color: #32a852;
 }
 
 .table--container {
-    width: 90%;
+    width: 95%;
     margin: auto;
 }
 
@@ -20,7 +21,8 @@
 }
 
 .table--general th {
-    padding: 15px;
+    font-size: 14px;
+    padding: 10px 0px 10px 0px;
     text-align: center;
     color: #32a852;
     background-color: #ffffff;
@@ -29,8 +31,12 @@
 .table--general td {
     padding: 10px 20px;
     color: #232323;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
+}
+
+.column--description {
+    width: 700px;
 }
 
 .table--general tbody tr:nth-child(odd) {

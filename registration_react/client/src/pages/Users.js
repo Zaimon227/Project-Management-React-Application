@@ -4,19 +4,50 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import '../styles/Navbar.css'
 import '../styles/Table.css'
+import '../styles/Search.css'
+
+const initialSearchForm = {
+    search: ""
+}
 
 const Users = () => {
 
+    // Users
     const [data, setData] = useState([])
 
     const loadData = async () => {
-        const response = await axios.get('http://localhost:5000/user')
+        const response = await axios.get(`http://localhost:5000/user/${pageNumber}`)
         setData(response.data)
     }
 
     useEffect(() => {
         loadData();
     }, [])
+
+    // Pagination
+    const [pageNumber, setPageNumber] = useState(1)
+
+    // Search
+    const [searchForm, setSearchForm] = useState(initialSearchForm);
+    const { search } = searchForm
+
+    // this listens and assigns the inputs from the search form
+    const handleInputChange = (event) => {
+        const {name, value} = event.target
+        setSearchForm({ ...searchForm, [name]: value })
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if(!search) {
+            loadData()
+        } else {
+            setPageNumber(1)
+            const response = await axios
+            .get(`http://localhost:5000/user/${pageNumber}/${search}`)
+                setData(response.data)
+        }
+    }
 
     return (
         <div className="home--main">
@@ -79,6 +110,20 @@ const Users = () => {
                 </ul>
             </div>
             <h2 className="table--title">Users Table</h2>
+
+            <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
+                <input
+                    className="form--input-search"
+                    type="text"
+                    id="search"
+                    name="search"
+                    placeholder="First Name"
+                    value={search}
+                    onChange={handleInputChange}
+                />
+                <input className="form--submit-search" type="submit" value="Search"/>
+            </form>
+
             <div className="main--container">
                 <div className="table--container">
                     <table className="table--general">

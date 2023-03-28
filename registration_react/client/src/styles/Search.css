@@ -1,0 +1,26 @@
+.form--search {
+    width: 600px;
+    margin-top: 15px;
+    float: right;
+}
+
+.form--input-search {
+    width: 400px;
+}
+
+.form--submit-search {
+    width: 80px;
+    margin-left: 10px;
+    background-color: #32a852;
+    color: #ffffff;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.form--submit-search:hover {
+    background-color: #196b2f;
+}
+
+

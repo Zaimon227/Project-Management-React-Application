@@ -2,11 +2,56 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+
 import '../styles/Navbar.css'
+import '../styles/Table.css'
+import '../styles/Search.css'
+
+const initialSearchForm = {
+    search: ""
+}
 
 const Nationality = () => {
+
+    // Nationality
+    const [data, setData] = useState([])
+
+    const loadData = async () => {
+        const response = await axios.get(`http://localhost:5000/nationality/${pageNumber}`)
+        setData(response.data)
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [])
+
+    // Pagination
+    const [pageNumber, setPageNumber] = useState(1)
+
+    // Search
+    const [searchForm, setSearchForm] = useState(initialSearchForm);
+    const { search } = searchForm
+
+    // this listens and assigns the inputs from the search form
+    const handleInputChange = (event) => {
+        const {name, value} = event.target
+        setSearchForm({ ...searchForm, [name]: value })
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if(!search) {
+            loadData()
+        } else {
+            setPageNumber(1)
+            const response = await axios
+            .get(`http://localhost:5000/nationality/${pageNumber}/${search}`)
+            setData(response.data)
+        }
+    }
+
     return (
-        <div className="home--main">
+        <div className="nationality--main">
             <div className="menubar">
                 <ul>
                     <Link to="/home">
@@ -65,8 +110,66 @@ const Nationality = () => {
                     </Link>
                 </ul>
             </div>
-            <div>
-                <h2>Welcome to the Nationality page</h2>
+            <h2 className="table--title">Nationality Table</h2>
+
+            <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
+                <input
+                    className="form--input-search"
+                    type="text"
+                    id="search"
+                    name="search"
+                    placeholder="Name"
+                    value={search}
+                    onChange={handleInputChange}
+                />
+                <input className="form--submit-search" type="submit" value="Search"/>
+            </form>
+
+            <div className="main--container">
+                <div className="table--container">
+                    <table className="table--general">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th className="column--description">Description</th>
+                                <th>Created By</th>
+                                <th>Created Date Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map((item) => {
+                                return (
+                                    <tr key={item.nationalityid}>
+                                        <td>{item.nationalityid}</td>
+                                        <td>{item.nationalityname}</td>
+                                        <td className="column--description">{item.description}</td>
+                                        <td>{item.created_by}</td>
+                                        <td>{item.created_datetime}</td>
+                                        <td>
+                                            <Link>
+                                                <button className="table--action-button">
+                                                    <img 
+                                                        src={require('../images/edit.png')}
+                                                        className="table--action-icon"
+                                                        alt="edit"
+                                                    />
+                                                </button>
+                                            </Link>
+                                                <button className="table--action-button">
+                                                    <img 
+                                                        src={require('../images/delete.png')}
+                                                        className="table--action-icon"
+                                                        alt="delete"
+                                                    />
+                                                </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

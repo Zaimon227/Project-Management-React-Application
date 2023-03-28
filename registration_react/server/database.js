@@ -11,7 +11,8 @@ const Knex = require('knex');
             options: {
                 port: 17122
             }
-        }
+        },
+        useNullAsDefault: true
     });
 
 Model.knex(knex);
