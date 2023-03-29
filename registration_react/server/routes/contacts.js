@@ -13,6 +13,7 @@ router.get('/:pageNumber', async (req, res) => {
             "email",
             "contact",
         )
+        .orderBy('id')
         .limit(limit)
         .offset((limit * pageNumber) - limit);
 
@@ -33,6 +34,7 @@ router.get('/:pageNumber/:search', async (req, res) => {
             "email",
             "contact",
         )
+        .orderBy('id')
         .whereRaw(`name like '${search}%'`)
         .limit(limit)
         .offset((limit * pageNumber) - limit);

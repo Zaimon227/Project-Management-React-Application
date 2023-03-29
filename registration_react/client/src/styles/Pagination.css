@@ -1,0 +1,52 @@
+.pagination--container {
+    margin-top: 25px;
+    display: flex;
+}
+
+.pagination--button-previous {
+    margin-left: auto;
+    margin-right: 30px;
+    background-color: #32a852;
+    height: 28px;
+    width: 40px;
+    padding: 3px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, 
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.pagination--button-previous:disabled {
+    background-color: rgba(50, 168, 82,0.5);
+}
+
+.pagination--pagenumber {
+    margin-top: 3px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.pagination--button-next {
+    margin-right: 100px;
+    margin-left: 30px;
+    background-color: #32a852;
+    height: 28px;
+    width: 40px;
+    padding: 3px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, 
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.pagination--button-next:disabled {
+    background-color: rgba(50, 168, 82,0.5);
+}
+
+.pagination--navigate-icon {
+    height: 12px;
+}

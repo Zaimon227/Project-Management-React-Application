@@ -13,6 +13,7 @@ router.get('/:pageNumber', async (req, res) => {
             "created_by",
             "created_datetime",
         )
+        .orderBy('civilstatusid')
         .limit(limit)
         .offset((limit * pageNumber) - limit);
 
@@ -33,6 +34,7 @@ router.get('/:pageNumber/:search', async (req, res) => {
             "created_by",
             "created_datetime",
         )
+        .orderBy('civilstatusid')
         .whereRaw(`civilstatusname like '${search}%'`)
         .limit(limit)
         .offset((limit * pageNumber) - limit);

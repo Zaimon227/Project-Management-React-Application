@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+
 import '../styles/Navbar.css'
 import '../styles/Table.css'
 import '../styles/Search.css'
+import '../styles/Pagination.css'
 
 const initialSearchForm = {
     search: ""
 }
+
+var page = 1
 
 const Users = () => {
 
@@ -16,20 +20,74 @@ const Users = () => {
     const [data, setData] = useState([])
 
     const loadData = async () => {
-        const response = await axios.get(`http://localhost:5000/user/${pageNumber}`)
+        const response = await axios.get(`http://localhost:5000/user/${page}`)
         setData(response.data)
     }
 
     useEffect(() => {
         loadData();
+        nextPreviousPageChecker()
     }, [])
 
     // Pagination
-    const [pageNumber, setPageNumber] = useState(1)
+    const [previousButtonStatus, setPreviousButtonStatus] = useState(true)
+    const [nextButtonStatus, setNextButtonStatus] = useState(true)
+
+    const nextPreviousPageChecker = async () => {
+        let previousPage = page - 1
+        if (previousPage <= 0) {
+            setPreviousButtonStatus(true)
+        } else {
+            setPreviousButtonStatus(false)
+        }
+
+        let nextPage = page + 1
+        if (!search) {
+            const check = await axios.get(`http://localhost:5000/user/${nextPage}`)
+            if (check.data.length == 0) {
+                setNextButtonStatus(true)
+            } else {
+                setNextButtonStatus(false)
+            }
+        } else {
+            const check = await axios.get(`http://localhost:5000/user/${nextPage}/${search}`)
+            if (check.data.length == 0) {
+                setNextButtonStatus(true)
+            } else {
+                setNextButtonStatus(false)
+            }
+        }
+    }
+
+    async function handlePreviousPage() {
+        page -= 1
+        if (!search) {     
+            loadData()
+        } else {
+            searchData()
+        }
+        nextPreviousPageChecker()
+    }
+
+    async function handleNextPage()  {
+        page += 1
+        if (!search) {
+            loadData()
+        } else {
+            searchData()
+        }
+        nextPreviousPageChecker()
+    }
 
     // Search
     const [searchForm, setSearchForm] = useState(initialSearchForm);
     const { search } = searchForm
+
+    const searchData = async () => {
+        const response = await axios.get(`http://localhost:5000/user/${page}/${search}`)
+        setData(response.data)
+        nextPreviousPageChecker()
+    }
 
     // this listens and assigns the inputs from the search form
     const handleInputChange = (event) => {
@@ -37,15 +95,13 @@ const Users = () => {
         setSearchForm({ ...searchForm, [name]: value })
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         if(!search) {
             loadData()
         } else {
-            setPageNumber(1)
-            const response = await axios
-            .get(`http://localhost:5000/user/${pageNumber}/${search}`)
-                setData(response.data)
+            page = 1
+            searchData()
         }
     }
 
@@ -175,6 +231,25 @@ const Users = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <div className="pagination--container">
+                    <button disabled={previousButtonStatus} className="pagination--button-previous" onClick={handlePreviousPage}>
+                        <img 
+                            src={require('../images/previous.png')}
+                            className="pagination--navigate-icon"
+                            alt="delete"
+                        />
+                    </button>
+                    <h3 className="pagination--pagenumber">Page {page}</h3>
+                    <button disabled={nextButtonStatus} className="pagination--button-next" onClick={handleNextPage}>
+                        <img 
+                            src={require('../images/next.png')}
+                            className="pagination--navigate-icon"
+                            alt="delete"
+                        />
+                    </button>
+                </div>
+                
             </div>
         </div>
     )

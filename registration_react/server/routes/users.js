@@ -4,7 +4,6 @@ const { raw } = require('objection');
 const { beforeInsert } = require("../models/userModel");
 const User = require('../models/userModel')
 
-
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 10
@@ -19,6 +18,7 @@ router.get('/:pageNumber', async (req, res) => {
             "tbCivilStatus.civilstatusname",
             "email"
             )
+        .orderBy('userid')
         .innerJoin('tbReligion', 'tbReligion.religionid', 'tbUsers.religionid')
         .innerJoin('tbNationality', 'tbNationality.nationalityid', 'tbUsers.nationalityid')
         .innerJoin('tbCivilStatus', 'tbCivilStatus.civilstatusid', 'tbUsers.civilstatusid')
@@ -46,6 +46,7 @@ router.get('/:pageNumber/:search', async (req, res) => {
             "tbCivilStatus.civilstatusname",
             "email"
             )
+        .orderBy('userid')
         .innerJoin('tbReligion', 'tbReligion.religionid', 'tbUsers.religionid')
         .innerJoin('tbNationality', 'tbNationality.nationalityid', 'tbUsers.nationalityid')
         .innerJoin('tbCivilStatus', 'tbCivilStatus.civilstatusid', 'tbUsers.civilstatusid')
