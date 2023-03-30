@@ -1,0 +1,103 @@
+.form--addcontact-container {
+    position: fixed;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: #ffffff;
+    width: 450px;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.form--addmaintenance-container {
+    position: fixed;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: #ffffff;
+    width: 450px;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.form--addmaintenace-input {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    margin: 10px 0;
+    width: 80%;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 8px;
+    border-color: #83de9b;
+}
+
+.form--addmaintenance-largeinput {
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    margin: 10px 0;
+    width: 80%;
+    height: 150px;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 8px;
+    border-color: #83de9b;
+}
+
+.form--add-submit {
+    width: 175px;
+    margin-right: 25px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    background-color: #949494;
+    padding: 10px;
+    color: #ffffff;
+    border-style: hidden;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 2px;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    transition-duration: 0.4s;
+}
+
+.form--add-submit:hover {
+    background-color: #196b2f;
+}
+
+.form--back {
+    width: 175px;
+    background-color: #949494;
+    color: #ffffff;
+    border-style: hidden;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 10px;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    transition-duration: 0.4s;;
+}
+
+.form--back:hover {
+    background-color: #994040;
+}

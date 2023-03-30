@@ -1,6 +1,11 @@
+.searchbar {
+    display: flex;
+}
+
 .form--search {
-    width: 600px;
+    width: 570px;
     margin-top: 15px;
+    margin-left: auto;
     float: right;
 }
 
@@ -26,4 +31,15 @@
     background-color: #196b2f;
 }
 
+.button--add {
+    height: 35px;
+    margin-right: 40px;
+    margin-top: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
+.button--add-icon {
+    height: 30px;
+}

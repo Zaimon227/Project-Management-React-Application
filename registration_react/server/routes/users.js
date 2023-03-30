@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const { raw } = require('objection');
-const { beforeInsert } = require("../models/userModel");
+const { raw } = require('objection')
+const { beforeInsert } = require("../models/userModel")
 const User = require('../models/userModel')
 
 router.get('/:pageNumber', async (req, res) => {

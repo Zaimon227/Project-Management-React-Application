@@ -165,8 +165,10 @@ const Nationality = () => {
                     </Link>
                 </ul>
             </div>
+
             <h2 className="table--title">Nationality Table</h2>
 
+            <div className="searchbar">
             <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
                 <input
                     className="form--input-search"
@@ -179,6 +181,16 @@ const Nationality = () => {
                 />
                 <input className="form--submit-search" type="submit" value="Search"/>
             </form>
+            <Link to={`/nationality/add`}>
+                <button className="button--add">
+                    <img 
+                        src={require('../images/add.png')}
+                        className="button--add-icon"
+                        alt="add"
+                    />
+                </button>
+            </Link>
+            </div>
 
             <div className="main--container">
                 <div className="table--container">
@@ -243,7 +255,7 @@ const Nationality = () => {
                         />
                     </button>
                 </div>
-                
+
             </div>
         </div>
     )

@@ -44,8 +44,24 @@ router.get('/:pageNumber/:search', async (req, res) => {
     res.status(200).json(contact)
 })
 
-router.post('/', (req, res) => {
-    res.send({data: "User Created"});
+router.post('/add', async (req, res) => {
+    const { name, address, email, contact } = req.body
+    if (!name && !address && !email && !contact) {
+        return res
+        .status(400)
+        .json({success: false, msg: 'Incomplete Inputs'})
+    }
+
+    const insertContact = await Contact.query().insert({
+        name: name,
+        address: address,
+        email: email,
+        contact: contact,
+    })
+        
+    console.log(insertContact instanceof Contact); // --> true
+    
+    res.status(201).send({success: true})
 })
 
 router.put('/', (req, res) => {

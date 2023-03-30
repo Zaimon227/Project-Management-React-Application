@@ -7,7 +7,6 @@ class User extends Model {
     static get idColumn() {
         return 'userid';
     }
-
     $beforeInsert() {
         this.created_datetime = new Date().toISOString();
     }

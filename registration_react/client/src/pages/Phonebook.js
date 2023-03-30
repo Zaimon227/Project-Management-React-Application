@@ -167,18 +167,29 @@ const Phonebook = () => {
             </div>
             <h2 className="table--title">Phonebook Table</h2>
 
-            <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
-                <input
-                    className="form--input-search"
-                    type="text"
-                    id="search"
-                    name="search"
-                    placeholder="Name"
-                    value={search}
-                    onChange={handleInputChange}
-                />
-                <input className="form--submit-search" type="submit" value="Search"/>
-            </form>
+            <div className="searchbar">
+                <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
+                    <input
+                        className="form--input-search"
+                        type="text"
+                        id="search"
+                        name="search"
+                        placeholder="Name"
+                        value={search}
+                        onChange={handleInputChange}
+                    />
+                    <input className="form--submit-search" type="submit" value="Search"/>
+                </form>
+                <Link to={`/phonebook/add`}>
+                    <button className="button--add">
+                        <img 
+                            src={require('../images/add.png')}
+                            className="button--add-icon"
+                            alt="add"
+                        />
+                    </button>
+                </Link>
+            </div>
 
             <div className="main--container">
                 <div className="table--container">
