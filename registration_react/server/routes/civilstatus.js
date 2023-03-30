@@ -3,6 +3,15 @@ const router = express.Router()
 const { beforeInsert } = require("../models/civilstatusModel")
 const CivilStatus = require('../models/civilstatusModel')
 
+router.get('/get/:civilstatusid', async (req, res) => {
+    const {civilstatusid} = req.params
+    const civilstatus = await CivilStatus.query().findById(civilstatusid)
+
+    console.log(civilstatus[0] instanceof CivilStatus) // --> true
+
+    res.status(200).json(civilstatus)
+})
+
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 10
@@ -66,12 +75,45 @@ router.post('/add', async (req, res) => {
     res.status(201).send({success: true})
 })
 
-router.put('/', (req, res) => {
-    res.send({data: "User Updated"});
+router.put('/update/:civilstatusid', async (req, res) => {
+    const {civilstatusid} = req.params
+    const {civilstatusname, description} = req.body
+
+    if (!civilstatusname && !description) {
+        return res
+        .status(404)
+        .json({success: false, msg: 'Incomplete Inputs' })
+    }
+
+    const updateCivilStatus = await CivilStatus.query()
+        .findById(civilstatusid)
+        .patch({
+            civilstatusname: civilstatusname,
+            description: description,
+            updated_by: "admin",
+            updated_datetime: beforeInsert()
+        });
+
+    if (!updateCivilStatus) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with civilstatusid ${civilstatusid} failed!` })
+    }
+
+    res.status(200).json({ success:true })
 })
 
-router.delete('/', (req, res) => {
-    res.send({data: "User Deleted"});
+router.delete('/delete/:civilstatusid', async (req, res) => {
+    const {civilstatusid} = req.params
+    const deleteCivilStatus = await CivilStatus.query().deleteById(civilstatusid);
+
+    if (!deleteCivilStatus) {
+        return res
+        .status(404)
+        .json({success: false, msg: `Deletion of contact with civilstatusid ${civilstatusid} has failed!` })
+    }
+
+    return res.status(200).json( {success: true} )
 })
 
 module.exports = router;

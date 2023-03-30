@@ -3,6 +3,15 @@ const router = express.Router()
 const { beforeInsert } = require("../models/nationalityModel")
 const Nationality = require('../models/nationalityModel')
 
+router.get('/get/:nationalityid', async (req, res) => {
+    const {nationalityid} = req.params
+    const nationality = await Nationality.query().findById(nationalityid)
+
+    console.log(nationality[0] instanceof Nationality) // --> true
+
+    res.status(200).json(nationality)
+})
+
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 10
@@ -66,12 +75,45 @@ router.post('/add', async (req, res) => {
     res.status(201).send({success: true})
 })
 
-router.put('/', (req, res) => {
-    res.send({data: "User Updated"});
+router.put('/update/:nationalityid', async (req, res) => {
+    const {nationalityid} = req.params
+    const {nationalityname, description} = req.body
+
+    if (!nationalityname && !description) {
+        return res
+        .status(404)
+        .json({success: false, msg: 'Incomplete Inputs' })
+    }
+
+    const updateNationality = await Nationality.query()
+        .findById(nationalityid)
+        .patch({
+            nationalityname: nationalityname,
+            description: description,
+            updated_by: "admin",
+            updated_datetime: beforeInsert()
+        });
+
+    if (!updateNationality) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with nationalityid ${nationalityid} failed!` })
+    }
+
+    res.status(200).json({ success:true })
 })
 
-router.delete('/', (req, res) => {
-    res.send({data: "User Deleted"});
+router.delete('/delete/:nationalityid', async (req, res) => {
+    const {nationalityid} = req.params
+    const deleteNationality = await Nationality.query().deleteById(nationalityid);
+
+    if (!deleteNationality) {
+        return res
+        .status(404)
+        .json({success: false, msg: `Deletion of contact with nationalityid ${nationalityid} has failed!` })
+    }
+
+    return res.status(200).json( {success: true} )
 })
 
 module.exports = router;

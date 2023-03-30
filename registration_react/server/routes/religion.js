@@ -3,6 +3,15 @@ const router = express.Router()
 const { beforeInsert } = require("../models/religionModel")
 const Religion = require('../models/religionModel')
 
+router.get('/get/:religionid', async (req, res) => {
+    const {religionid} = req.params
+    const religion = await Religion.query().findById(religionid)
+
+    console.log(religion[0] instanceof Religion) // --> true
+
+    res.status(200).json(religion)
+})
+
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 10
@@ -67,12 +76,45 @@ router.post('/add', async (req, res) => {
     res.status(201).send({success: true})
 })
 
-router.put('/', (req, res) => {
-    res.send({data: "User Updated"});
+router.put('/update/:religionid', async (req, res) => {
+    const {religionid} = req.params
+    const {religionname, description} = req.body
+
+    if (!religionname && !description) {
+        return res
+        .status(404)
+        .json({success: false, msg: 'Incomplete Inputs' })
+    }
+
+    const updateReligion = await Religion.query()
+        .findById(religionid)
+        .patch({
+            religionname: religionname,
+            description: description,
+            updated_by: "admin",
+            updated_datetime: beforeInsert()
+        });
+
+    if (!updateReligion) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with religionid ${religionid} failed!` })
+    }
+
+    res.status(200).json({ success:true })
 })
 
-router.delete('/', (req, res) => {
-    res.send({data: "User Deleted"});
+router.delete('/delete/:religionid', async (req, res) => {
+    const {religionid} = req.params
+    const deleteReligion = await Religion.query().deleteById(religionid);
+
+    if (!deleteReligion) {
+        return res
+        .status(404)
+        .json({success: false, msg: `Deletion of contact with religionid ${religionid} has failed!` })
+    }
+
+    return res.status(200).json( {success: true} )
 })
 
 module.exports = router;

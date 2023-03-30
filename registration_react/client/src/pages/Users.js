@@ -105,6 +105,15 @@ const Users = () => {
         }
     }
 
+    // Delete Religion
+    const deleteUser = (userid) => {
+        if(window.confirm("Are you sure that you want to delete that user?")){
+            axios.delete(`http://localhost:5000/user/delete/${userid}`)
+            toast.success("User Deleted Successfully")
+            setTimeout(() => loadData(), 500);
+        }
+    }
+
     return (
         <div className="home--main">
             <div className="menubar">
@@ -208,22 +217,13 @@ const Users = () => {
                                         <td>{item.civilstatusname}</td>
                                         <td>{item.email}</td>
                                         <td>
-                                            <Link>
-                                                <button className="table--action-button">
-                                                    <img 
-                                                        src={require('../images/edit.png')}
-                                                        className="table--action-icon"
-                                                        alt="edit"
-                                                    />
-                                                </button>
-                                            </Link>
-                                                <button className="table--action-button">
-                                                    <img 
-                                                        src={require('../images/delete.png')}
-                                                        className="table--action-icon"
-                                                        alt="delete"
-                                                    />
-                                                </button>
+                                            <button className="table--action-button" onClick={() => deleteUser(item.userid)}>
+                                                <img 
+                                                    src={require('../images/delete.png')}
+                                                    className="table--action-icon"
+                                                    alt="delete"
+                                                />
+                                            </button>
                                         </td>
                                     </tr>
                                 )

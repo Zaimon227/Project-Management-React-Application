@@ -105,6 +105,15 @@ const Nationality = () => {
         }
     }
 
+    // Delete Nationality
+    const deleteNationality = (nationalityid) => {
+        if(window.confirm("Are you sure that you want to delete that nationality?")){
+            axios.delete(`http://localhost:5000/nationality/delete/${nationalityid}`)
+            toast.success("Nationality Deleted Successfully")
+            setTimeout(() => loadData(), 500);
+        }
+    }
+
     return (
         <div className="nationality--main">
             <div className="menubar">
@@ -214,7 +223,7 @@ const Nationality = () => {
                                         <td>{item.created_by}</td>
                                         <td>{item.created_datetime}</td>
                                         <td>
-                                            <Link>
+                                            <Link to={`/nationality/update/${item.nationalityid}`}>
                                                 <button className="table--action-button">
                                                     <img 
                                                         src={require('../images/edit.png')}
@@ -223,7 +232,7 @@ const Nationality = () => {
                                                     />
                                                 </button>
                                             </Link>
-                                                <button className="table--action-button">
+                                                <button className="table--action-button" onClick={() => deleteNationality(item.nationalityid)}>
                                                     <img 
                                                         src={require('../images/delete.png')}
                                                         className="table--action-icon"

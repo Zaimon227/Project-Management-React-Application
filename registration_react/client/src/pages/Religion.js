@@ -105,6 +105,15 @@ const Religion = () => {
         }
     }
 
+    // Delete Religion
+    const deleteReligion = (religionid) => {
+        if(window.confirm("Are you sure that you want to delete that religion?")){
+            axios.delete(`http://localhost:5000/religion/delete/${religionid}`)
+            toast.success("Religion Deleted Successfully")
+            setTimeout(() => loadData(), 500);
+        }
+    }
+
     return (
         <div className="religion--main">
             <div className="menubar">
@@ -213,7 +222,7 @@ const Religion = () => {
                                         <td>{item.created_by}</td>
                                         <td>{item.created_datetime}</td>
                                         <td>
-                                            <Link>
+                                            <Link to={`/religion/update/${item.religionid}`}>
                                                 <button className="table--action-button">
                                                     <img 
                                                         src={require('../images/edit.png')}
@@ -222,7 +231,7 @@ const Religion = () => {
                                                     />
                                                 </button>
                                             </Link>
-                                                <button className="table--action-button">
+                                                <button className="table--action-button" onClick={() => deleteReligion(item.religionid)}>
                                                     <img 
                                                         src={require('../images/delete.png')}
                                                         className="table--action-icon"

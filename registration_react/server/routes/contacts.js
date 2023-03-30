@@ -2,6 +2,15 @@ const express = require("express")
 const router = express.Router()
 const Contact = require('../models/contactModel')
 
+router.get('/get/:id', async (req, res) => {
+    const {id} = req.params
+    const contact = await Contact.query().findById(id)
+
+    console.log(contact[0] instanceof Contact) // --> true
+
+    res.status(200).json(contact)
+})
+
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 10
@@ -44,32 +53,45 @@ router.get('/:pageNumber/:search', async (req, res) => {
     res.status(200).json(contact)
 })
 
-router.post('/add', async (req, res) => {
-    const { name, address, email, contact } = req.body
+router.put('/update/:id', async (req, res) => {
+    const {id} = req.params
+    const {name, address, email, contact} = req.body
+
     if (!name && !address && !email && !contact) {
         return res
-        .status(400)
-        .json({success: false, msg: 'Incomplete Inputs'})
+        .status(404)
+        .json({success: false, msg: 'Incomplete Inputs' })
     }
 
-    const insertContact = await Contact.query().insert({
-        name: name,
-        address: address,
-        email: email,
-        contact: contact,
-    })
-        
-    console.log(insertContact instanceof Contact); // --> true
-    
-    res.status(201).send({success: true})
+    const updateContact = await Contact.query()
+        .findById(id)
+        .patch({
+            name: name,
+            address: address,
+            email: email,
+            contact: contact
+        });
+
+    if (!updateContact) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with id ${id} failed!` })
+    }
+
+    res.status(200).json({ success:true })
 })
 
-router.put('/', (req, res) => {
-    res.send({data: "User Updated"});
-})
+router.delete('/delete/:id', async (req, res) => {
+    const {id} = req.params
+    const deleteContact = await Contact.query().deleteById(id);
 
-router.delete('/', (req, res) => {
-    res.send({data: "User Deleted"});
+    if (!deleteContact) {
+        return res
+        .status(404)
+        .json({success: false, msg: `Deletion of contact with id ${id} has failed!` })
+    }
+
+    return res.status(200).json( {success: true} )
 })
 
 module.exports = router;

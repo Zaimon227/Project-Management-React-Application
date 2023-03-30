@@ -122,8 +122,17 @@ router.post('/signup', async (req, res) => {
     res.status(201).send({success: true})
 })
 
-router.put('/', (req, res) => {
-    res.send({data: "User Updated"});
+router.delete('/delete/:userid', async (req, res) => {
+    const {userid} = req.params
+    const deleteUser = await User.query().deleteById(userid);
+
+    if (!deleteUser) {
+        return res
+        .status(404)
+        .json({success: false, msg: `Deletion of contact with userid ${userid} has failed!` })
+    }
+
+    return res.status(200).json( {success: true} )
 })
 
 router.delete('/', (req, res) => {

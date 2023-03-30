@@ -105,6 +105,15 @@ const Phonebook = () => {
         }
     }
 
+    // Delete Contact
+    const deleteContact = (id) => {
+        if(window.confirm("Are you sure that you want to delete that contact?")){
+            axios.delete(`http://localhost:5000/contact/delete/${id}`)
+            toast.success("Contact Deleted Successfully")
+            setTimeout(() => loadData(), 500);
+        }
+    }
+
     return (
         <div className="home--main">
             <div className="menubar">
@@ -213,7 +222,7 @@ const Phonebook = () => {
                                         <td>{item.email}</td>
                                         <td>{item.contact}</td>
                                         <td>
-                                            <Link>
+                                            <Link to={`/phonebook/update/${item.id}`}>
                                                 <button className="table--action-button">
                                                     <img 
                                                         src={require('../images/edit.png')}
@@ -222,7 +231,7 @@ const Phonebook = () => {
                                                     />
                                                 </button>
                                             </Link>
-                                                <button className="table--action-button">
+                                                <button className="table--action-button" onClick={() => deleteContact(item.id)}>
                                                     <img 
                                                         src={require('../images/delete.png')}
                                                         className="table--action-icon"

@@ -17,6 +17,11 @@ import AddReligion from './pages/insert/AddReligion.js'
 import AddNationality from './pages/insert/AddNationality.js'
 import AddCivilStatus from './pages/insert/AddCivilStatus.js'
 
+import EditContact from './pages/update/EditContact.js'
+import EditReligion from './pages/update/EditReligion.js'
+import EditNationality from './pages/update/EditNationality.js'
+import EditCivilStatus from './pages/update/EditCivilStatus.js'
+
 function App() {
   return (
     <BrowserRouter>
@@ -37,6 +42,11 @@ function App() {
           <Route path="/religion/add" element={<AddReligion />}/>
           <Route path="/nationality/add" element={<AddNationality />}/>
           <Route path="/civilstatus/add" element={<AddCivilStatus />}/>
+
+          <Route path="/phonebook/update/:id" element={<EditContact />}/>
+          <Route path="/religion/update/:religionid" element={<EditReligion />}/>
+          <Route path="/nationality/update/:nationalityid" element={<EditNationality />}/>
+          <Route path="/civilstatus/update/:civilstatusid" element={<EditCivilStatus />}/>
         </Routes>
       </div>
     </BrowserRouter>

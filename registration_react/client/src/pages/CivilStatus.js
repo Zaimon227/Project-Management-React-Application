@@ -105,6 +105,15 @@ const CivilStatus = () => {
         }
     }
 
+    // Delete Civil Status
+    const deleteCivilStatus = (civilstatusid) => {
+        if(window.confirm("Are you sure that you want to delete that civil status?")){
+            axios.delete(`http://localhost:5000/civilstatus/delete/${civilstatusid}`)
+            toast.success("Civil Status Deleted Successfully")
+            setTimeout(() => loadData(), 500);
+        }
+    }
+
     return (
         <div className="civilstatus--main">
             <div className="menubar">
@@ -213,7 +222,7 @@ const CivilStatus = () => {
                                         <td>{item.created_by}</td>
                                         <td>{item.created_datetime}</td>
                                         <td>
-                                            <Link>
+                                            <Link to={`/civilstatus/update/${item.civilstatusid}`}>
                                                 <button className="table--action-button">
                                                     <img 
                                                         src={require('../images/edit.png')}
@@ -222,7 +231,7 @@ const CivilStatus = () => {
                                                     />
                                                 </button>
                                             </Link>
-                                                <button className="table--action-button">
+                                                <button className="table--action-button" onClick={() => deleteCivilStatus(item.civilstatusid)}>
                                                     <img 
                                                         src={require('../images/delete.png')}
                                                         className="table--action-icon"
