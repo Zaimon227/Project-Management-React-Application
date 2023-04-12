@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import '../styles/Navbar.css'
+import '../styles/Home.css'
 
 const Home = () => {
     return (
         <div className="home--main">
+            {/* --- Componentable?? --- */}
             <div className="menubar">
                 <ul>
                     <Link to="/home">
@@ -65,8 +67,14 @@ const Home = () => {
                     </Link>
                 </ul>
             </div>
-            <div>
-                <h2>Welcome to the home page</h2>
+            <div className="home--content">
+                <img 
+                    src={require('../images/home2.png')}
+                    className="home--icon"
+                    alt="home"
+                />
+                <h2 className="home--greetings">Welcome!</h2>
+                <p className="home--about">Manage users, phonebook, religion, nationality, or civil status</p>
             </div>
         </div>
     )

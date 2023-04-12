@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { format } from 'date-fns'
 import axios from 'axios'
 
 import '../styles/Navbar.css'
@@ -221,7 +222,7 @@ const Nationality = () => {
                                         <td>{item.nationalityname}</td>
                                         <td className="column--description">{item.description}</td>
                                         <td>{item.created_by}</td>
-                                        <td>{item.created_datetime}</td>
+                                        <td>{format(new Date(item.created_datetime), 'yyyy/mm/dd')}</td>
                                         <td>
                                             <Link to={`/nationality/update/${item.nationalityid}`}>
                                                 <button className="table--action-button">

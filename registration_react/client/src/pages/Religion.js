@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { format } from 'date-fns'
 import axios from 'axios'
 
 import '../styles/Navbar.css'
@@ -44,14 +45,14 @@ const Religion = () => {
         let nextPage = page + 1
         if (!search) {
             const check = await axios.get(`http://localhost:5000/religion/${nextPage}`)
-            if (check.data.length == 0) {
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
             }
         } else {
             const check = await axios.get(`http://localhost:5000/religion/${nextPage}/${search}`)
-            if (check.data.length == 0) {
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
@@ -220,7 +221,7 @@ const Religion = () => {
                                         <td>{item.religionname}</td>
                                         <td className="column--description">{item.description}</td>
                                         <td>{item.created_by}</td>
-                                        <td>{item.created_datetime}</td>
+                                        <td>{format(new Date(item.created_datetime), 'yyyy/mm/dd')}</td>
                                         <td>
                                             <Link to={`/religion/update/${item.religionid}`}>
                                                 <button className="table--action-button">

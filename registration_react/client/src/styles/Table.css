@@ -66,3 +66,18 @@
 .table--action-icon {
     width: 20px;
 }
+
+.table--profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.table--profile-picture {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 25px;
+}

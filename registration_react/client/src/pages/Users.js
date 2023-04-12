@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { format } from 'date-fns'
 import axios from 'axios'
 
 import '../styles/Navbar.css'
@@ -22,10 +23,11 @@ const Users = () => {
     const loadData = async () => {
         const response = await axios.get(`http://localhost:5000/user/${page}`)
         setData(response.data)
+        console.log(data)
     }
 
     useEffect(() => {
-        loadData();
+        loadData()
         nextPreviousPageChecker()
     }, [])
 
@@ -44,14 +46,14 @@ const Users = () => {
         let nextPage = page + 1
         if (!search) {
             const check = await axios.get(`http://localhost:5000/user/${nextPage}`)
-            if (check.data.length == 0) {
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
             }
         } else {
             const check = await axios.get(`http://localhost:5000/user/${nextPage}/${search}`)
-            if (check.data.length == 0) {
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
@@ -209,14 +211,41 @@ const Users = () => {
                                 return (
                                     <tr key={item.userid}>
                                         <td>{item.userid}</td>
-                                        <td>{item.completename}</td>
+                                        <td>
+                                            <div className="table--profile-container">
+                                                { item.profilepicture !== null &&
+                                                <img 
+                                                    src={require(`../uploads/${item.profilepicture}`)}
+                                                    className="table--profile-picture"
+                                                    alt="profile"
+                                                />
+                                                }
+                                                { item.profilepicture == null &&
+                                                <img 
+                                                    src={require(`../uploads/defaultProfile.png`)}
+                                                    className="table--profile-picture"
+                                                    alt="profile"
+                                                />
+                                                }
+                                                {item.completename}
+                                            </div>
+                                        </td>
                                         <td>{item.gender}</td>
-                                        <td>{item.birthdate}</td>
+                                        <td>{format(new Date(item.birthdate), 'MMM dd, yyyy')}</td>
                                         <td>{item.religionname}</td>
                                         <td>{item.nationalityname}</td>
                                         <td>{item.civilstatusname}</td>
                                         <td>{item.email}</td>
                                         <td>
+                                            <Link to={`/users/profile/${item.userid}`}>
+                                            <button className="table--action-button">
+                                                <img 
+                                                    src={require('../images/profile.png')}
+                                                    className="table--action-icon"
+                                                    alt="profile"
+                                                />
+                                            </button>
+                                            </Link>
                                             <button className="table--action-button" onClick={() => deleteUser(item.userid)}>
                                                 <img 
                                                     src={require('../images/delete.png')}
