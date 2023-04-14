@@ -50,32 +50,32 @@ const AddContact = () => {
             <div className="form--addcontact-container">
                 <h1 className="form--title">Add Contact</h1>
                 <form onSubmit={handleSubmit} autocomplete="off">
+                    <p className="form--label">Name</p>
                     <input className="form--addcontact-input"
                         type="text"
                         id="name"
                         name="name" 
-                        placeholder="Name"
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Address</p>
                     <input className="form--addcontact-input"
                         type="text"
                         id="address"
                         name="address" 
-                        placeholder="Address"
                         onChange={handleInputChange}
                     />
-                    <input className="form--addcontact-input" 
+                    <p className="form--label">Email</p>
+                    <input className="form--addcontact-input"
                         type="text"
                         id="email"
                         name="email"
-                        placeholder="Email"
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Contact Number</p>
                     <input className="form--addcontact-input" 
                         type="text"
                         id="contact"
                         name="contact" 
-                        placeholder="Contact"
                         onChange={handleInputChange}
                     />
                     <input className="form--add-submit" type="submit" value="ADD"/>

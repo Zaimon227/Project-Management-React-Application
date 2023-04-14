@@ -56,10 +56,12 @@ const EditProfilePicture = () => {
                         />
                         Upload Profile Picture
                     </label>
-                    <input className="form--add-submit" type="submit" value="APPLY"/>
-                    <Link to='/users'>
-                    <input className="form--signup-back" type="button" value="BACK"/>
-                    </Link>
+                    <div className="form-buttons-container">
+                        <input className="form--add-submit" type="submit" value="APPLY"/>
+                        <Link to='/users'>
+                        <input className="form--signup-back" type="button" value="BACK"/>
+                        </Link>
+                    </div>
                 </form>
             </div>
         </div>

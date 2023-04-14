@@ -3,6 +3,14 @@ const router = express.Router()
 const { beforeInsert } = require("../models/civilstatusModel")
 const CivilStatus = require('../models/civilstatusModel')
 
+router.get('/', async (req, res) => {
+    const civilstatus = await CivilStatus.query()
+
+    console.log(civilstatus[0] instanceof CivilStatus) // --> true
+
+    res.status(200).json(civilstatus)
+})
+
 router.get('/get/:civilstatusid', async (req, res) => {
     const {civilstatusid} = req.params
     const civilstatus = await CivilStatus.query().findById(civilstatusid)

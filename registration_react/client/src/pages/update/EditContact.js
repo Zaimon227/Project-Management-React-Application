@@ -56,35 +56,35 @@ const EditContact = () => {
             <div className="form--addcontact-container">
                 <h1 className="form--title">Edit Contact</h1>
                 <form onSubmit={handleSubmit} autoComplete="off">
+                    <p className="form--label">Name</p>
                     <input className="form--addcontact-input"
                         type="text"
                         id="name"
-                        name="name" 
-                        placeholder="Name"
+                        name="name"
                         value={name || ""} 
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Address</p>
                     <input className="form--addcontact-input"
                         type="text"
                         id="address"
                         name="address" 
-                        placeholder="Address"
                         value={address || ""} 
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Email</p>
                     <input className="form--addcontact-input" 
                         type="text"
                         id="email"
                         name="email"
-                        placeholder="Email"
                         value={email || ""} 
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Contact Number</p>
                     <input className="form--addcontact-input" 
                         type="text"
                         id="contact"
                         name="contact" 
-                        placeholder="Contact"
                         value={contact || ""} 
                         onChange={handleInputChange}
                     />

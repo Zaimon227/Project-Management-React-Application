@@ -3,6 +3,14 @@ const router = express.Router()
 const { beforeInsert } = require("../models/religionModel")
 const Religion = require('../models/religionModel')
 
+router.get('/', async (req, res) => {
+    const religion = await Religion.query()
+
+    console.log(religion[0] instanceof Religion) // --> true
+
+    res.status(200).json(religion)
+})
+
 router.get('/get/:religionid', async (req, res) => {
     const {religionid} = req.params
     const religion = await Religion.query().findById(religionid)

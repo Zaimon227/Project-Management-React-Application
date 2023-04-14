@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Username, ProfilePicture } from '../Context'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
@@ -17,13 +18,15 @@ var page = 1
 
 const Users = () => {
 
+    const { username, setUsername } = useContext(Username)
+    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
+
     // Users
     const [data, setData] = useState([])
 
     const loadData = async () => {
         const response = await axios.get(`http://localhost:5000/user/${page}`)
         setData(response.data)
-        console.log(data)
     }
 
     useEffect(() => {
@@ -119,6 +122,16 @@ const Users = () => {
     return (
         <div className="home--main">
             <div className="menubar">
+                <div className="menubar--leftside">
+                    <div className="menubar--profile-container">
+                        <img 
+                            src={require(`../uploads/${profilePicture}`)}
+                            className="menubar--profile-picture"
+                            alt="phonebook"
+                        />
+                        <p className="menubar--profile-username">{username}</p>
+                    </div>
+                </div>
                 <ul>
                     <Link to="/home">
                     <li>
@@ -128,6 +141,16 @@ const Users = () => {
                             alt="phonebook"
                         />
                         Home
+                    </li>
+                    </Link>
+                    <Link to="/board">
+                    <li>
+                        <img 
+                            src={require('../images/board.png')}
+                            className="menubar--icon"
+                            alt="phonebook"
+                        />
+                        Board
                     </li>
                     </Link>
                     <Link to="/users">
@@ -176,6 +199,7 @@ const Users = () => {
                     </Link>
                 </ul>
             </div>
+
             <h2 className="table--title">Users Table</h2>
 
             <form className="form--search" onSubmit={handleSubmit} autoComplete="off">
@@ -204,6 +228,7 @@ const Users = () => {
                                 <th>Nationality</th>
                                 <th>Civil Status</th>
                                 <th>Email</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

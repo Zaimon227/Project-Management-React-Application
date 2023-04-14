@@ -118,88 +118,95 @@ const Signup = () => {
             <div className="form--signup-container">
                 <h1 className="form--title">Sign up</h1>
                 <form onSubmit={handleSubmit}>
-                    <input className="form--signup-input"
-                        type="text"
-                        id="firstname"
-                        name="firstname" 
-                        placeholder="First Name"
-                        onChange={handleInputChange}
-                    />
-                    <input className="form--signup-input"
-                        type="text"
-                        id="middlename"
-                        name="middlename" 
-                        placeholder="Middle Name"
-                        onChange={handleInputChange}
-                    />
-                    <input className="form--signup-input"
-                        type="text"
-                        id="lastname"
-                        name="lastname" 
-                        placeholder="Last Name"
-                        onChange={handleInputChange}
-                    />
-                    <select className="form--signup-gender" id="gender" name="gender" onChange={handleInputChange}>
-                        <option hidden disabled selected value>Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-
-                    <input className="form--signup-datepicker" 
-                        type="date" 
-                        id="birthdate"
-                        name="birthdate" 
-                        onChange={handleInputChange}/>
-
-                    <select className="form--signup-select" id="religionid" name="religionid"  onChange={handleInputChange}>
-                                <option hidden disabled selected value>Religion</option>
-                        {religionData.map((item) => {
-                            return (
-                                <option key={item.religionid} value={item.religionid}>{item.religionname}</option>
-                            )
-                        })}
-                    </select>
-                    <select className="form--signup-select" id="nationalityid" name="nationalityid"  onChange={handleInputChange}>
-                                <option hidden disabled selected value>Nationality</option>
-                        {nationalityData.map((item) => {
-                            return (
-                                <option key={item.nationalityid} value={item.nationalityid}>{item.nationalityname}</option>
-                            )
-                        })}
-                    </select>
-                    <select className="form--signup-select" id="civilstatusid" name="civilstatusid"  onChange={handleInputChange}>
-                                <option hidden disabled selected value>Civil Status</option>
-                        {civilstatusData.map((item) => {
-                            return (
-                                <option key={item.civilstatusid} value={item.civilstatusid}>{item.civilstatusname}</option>
-                            )
-                        })}
-                    </select>
-                    <input className="form--signup-input"
-                        type="text"
-                        id="email"
-                        name="email" 
-                        placeholder="Email"
-                        onChange={handleInputChange}
-                    />
-                    <input className="form--signup-input" 
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={handleInputChange}
-                    />
-                    <input className="form--signup-input" 
-                        type="password"
-                        id="confirmpassword"
-                        name="confirmpassword" 
-                        placeholder="Confirm Password"
-                        onChange={handleInputChange}
-                    />
+                    <div className="form--signup-leftside-contents">
+                        <p className="form--signup-label">First Name</p>
+                        <input className="form--signup-input"
+                            type="text"
+                            id="firstname"
+                            name="firstname" 
+                            onChange={handleInputChange}
+                        />
+                        <p className="form--signup-label">Middle Name</p>
+                        <input className="form--signup-input"
+                            type="text"
+                            id="middlename"
+                            name="middlename" 
+                            onChange={handleInputChange}
+                        />
+                        <p className="form--signup-label">Last Name</p>
+                        <input className="form--signup-input"
+                            type="text"
+                            id="lastname"
+                            name="lastname" 
+                            onChange={handleInputChange}
+                        />
+                        <p className="form--signup-label">Gender</p>
+                        <select className="form--signup-gender" id="gender" name="gender" onChange={handleInputChange}>
+                            <option hidden disabled selected value>Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        <p className="form--signup-label">Birthdate</p>
+                        <input className="form--signup-datepicker" 
+                            type="date" 
+                            id="birthdate"
+                            name="birthdate"
+                            onChange={handleInputChange}/>
+                        <p className="form--signup-label">Religion</p>
+                        <select className="form--signup-select" id="religionid" name="religionid"  onChange={handleInputChange}>
+                                    <option hidden disabled selected value>Select</option>
+                            {religionData.map((item) => {
+                                return (
+                                    <option key={item.religionid} value={item.religionid}>{item.religionname}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    <div className="form--signup-rightside-contents">
+                        <p className="form--signup-label">Nationality</p>
+                        <select className="form--signup-select" id="nationalityid" name="nationalityid"  onChange={handleInputChange}>
+                                    <option hidden disabled selected value>Select</option>
+                            {nationalityData.map((item) => {
+                                return (
+                                    <option key={item.nationalityid} value={item.nationalityid}>{item.nationalityname}</option>
+                                )
+                            })}
+                        </select>
+                        <p className="form--signup-label">Civil Status</p>
+                        <select className="form--signup-select" id="civilstatusid" name="civilstatusid"  onChange={handleInputChange}>
+                                    <option hidden disabled selected value>Select</option>
+                            {civilstatusData.map((item) => {
+                                return (
+                                    <option key={item.civilstatusid} value={item.civilstatusid}>{item.civilstatusname}</option>
+                                )
+                            })}
+                        </select>
+                        <p className="form--signup-label">Email</p>
+                        <input className="form--signup-input"
+                            type="text"
+                            id="email"
+                            name="email" 
+                            onChange={handleInputChange}
+                        />
+                        <p className="form--signup-label">Password</p>
+                        <input className="form--signup-input" 
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={handleInputChange}
+                        />
+                        <p className="form--signup-label">Confirm Password</p>
+                        <input className="form--signup-input" 
+                            type="password"
+                            id="confirmpassword"
+                            name="confirmpassword" 
+                            onChange={handleInputChange}
+                        />
                     <input className="form--signup-submit" type="submit" value="SIGN UP"/>
                     <Link to='/'>
                     <input className="form--signup-back" type="button" value="BACK"/>
                     </Link>
+                    </div>
                 </form>
             </div>
         </div>

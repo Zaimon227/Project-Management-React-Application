@@ -17,7 +17,8 @@
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     padding: 5px 10px;
-    margin: 10px 0;
+    margin-top: 4px;
+    margin-bottom: 10px;
     width: 80%;
     border-style: solid;
     border-width: 3px;
@@ -29,7 +30,8 @@
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     padding: 5px 10px;
-    margin: 10px 0;
+    margin-top: 4px;
+    margin-bottom: 10px;
     width: 80%;
     border-style: solid;
     border-width: 3px;
@@ -41,7 +43,8 @@
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     padding: 5px 10px;
-    margin: 10px 20px 10px 0px;
+    margin-top: 4px;
+    margin-bottom: 10px;
     width: 160px;
     border-style: solid;
     border-width: 3px;
@@ -53,7 +56,8 @@
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     padding: 5px 10px;
-    margin: 10px 0;
+    margin-top: 4px;
+    margin-bottom: 10px;
     width: 180px;
     border-style: solid;
     border-width: 3px;
@@ -63,11 +67,11 @@
 
 .form--signup-container {
     position: fixed;
-    top: -43%;
+    top: -20%;
     left: 50%;
     transform: translate(-50%, 50%);
     background: #ffffff;
-    width: 450px;
+    width: 900px;
     padding: 0px;
     border-radius: 5px;
     box-shadow:
@@ -78,10 +82,21 @@
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
+.form--signup-leftside-contents {
+    width: 50%;
+    float: left;
+    padding-left: 50px;
+}
+
+.form--signup-rightside-contents {
+    width: 50%;
+    float: right;
+}
+
 .form--signup-submit {
-    width: 175px;
+    width: 165px;
     margin-right: 25px;
-    margin-top: 30px;
+    margin-top: 25px;
     margin-bottom: 40px;
     background-color: #949494;
     padding: 10px;
@@ -102,7 +117,7 @@
 }
 
 .form--signup-back {
-    width: 175px;
+    width: 165px;
     background-color: #949494;
     color: #ffffff;
     border-style: hidden;
@@ -114,9 +129,15 @@
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    transition-duration: 0.4s;;
+    transition-duration: 0.4s;
 }
 
 .form--signup-back:hover {
     background-color: #994040;
+}
+
+.form--signup-label {
+    color: #909090;
+    font-size: 14px;
+    text-align: left;
 }

@@ -52,19 +52,19 @@ const EditNationality = () => {
             <div className="form--addmaintenance-container">
                 <h1 className="form--title">Edit Nationality</h1>
                 <form onSubmit={handleSubmit} autocomplete="off">
+                    <p className="form--label">Nationality Name</p>
                     <input className="form--addmaintenace-input"
                         type="text"
                         id="nationalityname"
                         name="nationalityname" 
-                        placeholder="Nationality Name"
                         value={nationalityname || ""}
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Description</p>
                     <textarea className="form--addmaintenance-largeinput"
                         type="text"
                         id="description"
                         name="description" 
-                        placeholder="Nationality Description"
                         value={description || ""}
                         onChange={handleInputChange}
                     />

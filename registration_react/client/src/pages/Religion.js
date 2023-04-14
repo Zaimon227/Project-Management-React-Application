@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Username, ProfilePicture } from '../Context'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
@@ -16,6 +17,9 @@ const initialSearchForm = {
 var page = 1
 
 const Religion = () => {
+
+    const { username, setUsername } = useContext(Username)
+    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
 
     // Religion
     const [data, setData] = useState([])
@@ -118,6 +122,16 @@ const Religion = () => {
     return (
         <div className="religion--main">
             <div className="menubar">
+                <div className="menubar--leftside">
+                    <div className="menubar--profile-container">
+                        <img 
+                            src={require(`../uploads/${profilePicture}`)}
+                            className="menubar--profile-picture"
+                            alt="phonebook"
+                        />
+                        <p className="menubar--profile-username">{username}</p>
+                    </div>
+                </div>
                 <ul>
                     <Link to="/home">
                     <li>
@@ -127,6 +141,16 @@ const Religion = () => {
                             alt="phonebook"
                         />
                         Home
+                    </li>
+                    </Link>
+                    <Link to="/board">
+                    <li>
+                        <img 
+                            src={require('../images/board.png')}
+                            className="menubar--icon"
+                            alt="phonebook"
+                        />
+                        Board
                     </li>
                     </Link>
                     <Link to="/users">
@@ -175,6 +199,7 @@ const Religion = () => {
                     </Link>
                 </ul>
             </div>
+
             <h2 className="table--title">Religion Table</h2>
 
             <div className="searchbar">
@@ -211,6 +236,7 @@ const Religion = () => {
                                 <th className="column--description">Description</th>
                                 <th>Created By</th>
                                 <th>Created Date Time</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

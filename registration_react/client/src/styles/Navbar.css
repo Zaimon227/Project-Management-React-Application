@@ -11,11 +11,39 @@
     padding: 0;
 }
 
+.menubar--leftside {
+    float: left;
+}
+
+.menubar--profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.menubar--profile-picture {
+    border-style: solid;
+    border-color: #ffffff;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    object-position: center;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+.menubar--profile-username {
+    margin-left: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
 .menubar ul {
     display: inline-flex;
     list-style: none;
     color: #ffffff;
-    
     font-size: 14px;
 }
 

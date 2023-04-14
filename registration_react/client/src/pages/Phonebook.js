@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Username, ProfilePicture } from '../Context'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -15,6 +16,9 @@ const initialSearchForm = {
 var page = 1
 
 const Phonebook = () => {
+
+    const { username, setUsername } = useContext(Username)
+    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
 
     // Contacts
     const [data, setData] = useState([])
@@ -117,6 +121,16 @@ const Phonebook = () => {
     return (
         <div className="home--main">
             <div className="menubar">
+                <div className="menubar--leftside">
+                    <div className="menubar--profile-container">
+                        <img 
+                            src={require(`../uploads/${profilePicture}`)}
+                            className="menubar--profile-picture"
+                            alt="phonebook"
+                        />
+                        <p className="menubar--profile-username">{username}</p>
+                    </div>
+                </div>
                 <ul>
                     <Link to="/home">
                     <li>
@@ -126,6 +140,16 @@ const Phonebook = () => {
                             alt="phonebook"
                         />
                         Home
+                    </li>
+                    </Link>
+                    <Link to="/board">
+                    <li>
+                        <img 
+                            src={require('../images/board.png')}
+                            className="menubar--icon"
+                            alt="phonebook"
+                        />
+                        Board
                     </li>
                     </Link>
                     <Link to="/users">
@@ -174,6 +198,7 @@ const Phonebook = () => {
                     </Link>
                 </ul>
             </div>
+
             <h2 className="table--title">Phonebook Table</h2>
 
             <div className="searchbar">
@@ -210,6 +235,7 @@ const Phonebook = () => {
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Contact</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

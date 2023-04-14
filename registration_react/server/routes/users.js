@@ -58,6 +58,14 @@ router.put('/upload/:userid', upload.single('image'), async (req, res) => {
 })
 // ----------------- END OF IMAGE UPLOADING ------------------------------------------
 
+router.get('/', async (req, res) => {
+    const user = await User.query()
+
+    console.log(user[0] instanceof User) // --> true
+
+    res.status(200).json(user)
+})
+
 router.get('/get/:userid', async (req, res) => {
     const {userid} = req.params
     const user = await User.query().findById(userid)
@@ -130,11 +138,11 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body
 
     const user = await User.query()
-        .select('userid')
+        .select('userid', 'firstname', 'lastname', 'profilepicture')
         .where('email', email)
         .where('password', password);
         
-    res.status(200).json(user)
+    res.status(200).json({success: true, body: user})
 })
 
 router.post('/signup', async (req, res) => {

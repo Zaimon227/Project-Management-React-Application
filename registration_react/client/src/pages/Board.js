@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import '../styles/Navbar.css'
-import '../styles/Home.css'
+import '../styles/Board.css'
 
-const Home = () => {
+const Board = () => {
 
     const { username, setUsername } = useContext(Username)
     const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
@@ -27,7 +27,7 @@ const Home = () => {
                 </div>
                 <ul>
                     <Link to="/home">
-                    <li className="menubar--current">
+                    <li>
                         <img 
                             src={require('../images/home.png')}
                             className="menubar--icon"
@@ -37,7 +37,7 @@ const Home = () => {
                     </li>
                     </Link>
                     <Link to="/board">
-                    <li>
+                    <li className="menubar--current">
                         <img 
                             src={require('../images/board.png')}
                             className="menubar--icon"
@@ -93,17 +93,36 @@ const Home = () => {
                 </ul>
             </div>
 
-            <div className="home--content">
+            <Link to='/board/add'>
+            <button className="button--add-task">
                 <img 
-                    src={require('../images/home2.png')}
-                    className="home--icon"
-                    alt="home"
+                    src={require('../images/add2.png')}
+                    className="button--add-icon-task"
+                    alt="add task"
                 />
-                <h2 className="home--greetings">Welcome { username }!</h2>
-                <p className="home--about">Manage users, phonebook, religion, nationality, or civil status</p>
-            </div>
+                Create Task
+            </button>
+            </Link>
+
+            <div className="board--main-container">
+                <div className="board--ticket-status">
+                    <p className="board--ticket-status-label">TO DO</p>
+                </div>
+                <div className="board--ticket-status">
+                    <p className="board--ticket-status-label">IN PROGRESS</p>
+                </div>
+                <div className="board--ticket-status">
+                    <p className="board--ticket-status-label">FOR TESTING</p>
+                </div>
+                <div className="board--ticket-status">
+                    <p className="board--ticket-status-label">DONE</p>
+                </div>
+                <div className="board--ticket-status">
+                    <p className="board--ticket-status-label">INVALID</p>
+                </div>
+            </div> 
         </div>
     )
 }
 
-export default Home
+export default Board

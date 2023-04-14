@@ -1,0 +1,68 @@
+body {
+    background-color: #f7f7f7;
+}
+
+.button--add-task {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: #32a852;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 12px 30px;
+    border: none;
+    margin-top: 30px;
+    margin-left: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, 
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    transition-duration: 0.4s;
+}
+
+.button--add-task:hover {
+    background-color: #196b2f;
+}
+
+.button--add-icon-task {
+    margin-right: 10px;
+    width: 25px;
+}
+
+.board--main-container{
+    margin: auto;
+    width: 100%;
+}
+
+.board--main-container::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.board--ticket-status {
+    float: left;
+    width: 18.65%;
+    height: 550px;
+    margin: 10px;
+    margin-top: 30px;
+    border-radius: 11px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    transition-duration: 0.4s;
+}
+
+.board--ticket-status:hover {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(50, 168, 82, 0.7) 0px 0px 0px 2px;
+}
+
+.board--ticket-status-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8d8d8d;
+    border-radius: 8px 8px 0 0; 
+    padding: 10px;
+}
+

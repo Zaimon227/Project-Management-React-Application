@@ -52,14 +52,15 @@ const EditCivilStatus = () => {
             <div className="form--addmaintenance-container">
                 <h1 className="form--title">Edit Civil Status</h1>
                 <form onSubmit={handleSubmit} autocomplete="off">
+                    <p className="form--label">Civil Status Name</p>
                     <input className="form--addmaintenace-input"
                         type="text"
                         id="civilstatusname"
                         name="civilstatusname" 
-                        placeholder="Civil Status Name"
                         value={civilstatusname || ""}
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Description</p>
                     <textarea className="form--addmaintenance-largeinput"
                         type="text"
                         id="description"
