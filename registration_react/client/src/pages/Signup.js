@@ -117,7 +117,7 @@ const Signup = () => {
         <div className="form--background">
             <div className="form--signup-container">
                 <h1 className="form--title">Sign up</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <div className="form--signup-leftside-contents">
                         <p className="form--signup-label">First Name</p>
                         <input className="form--signup-input"

@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const { beforeInsert } = require("../models/religionModel")
 const Task = require('../models/taskModel')
 
 router.get('/get/:taskid', async (req, res) => {

@@ -25,7 +25,7 @@ app.use('/user', usersRoutes)
 app.use('/religion', religionRoutes)
 app.use('/nationality', nationalityRoutes)
 app.use('/civilstatus', civilstatusRoutes)
-app.use('./task', tasksRoutes)
+app.use('/task', tasksRoutes)
 
 app.listen(5000, () => {
     console.log('Server is listening on port 5000.. ')

@@ -11,7 +11,6 @@ const initialAddTaskForm = {
     description: "",
     taskstatus: "",
     assignee: "",
-    reporter: "",
     deadline: ""
 }
 
@@ -36,7 +35,7 @@ const AddTask = () => {
 
     // Add Task Form
     const [addTaskForm, setAddTaskForm] = useState(initialAddTaskForm);
-    const { name, description, taskstatus, assignee, reporter, deadline } = addTaskForm
+    const { name, description, taskstatus, assignee, deadline } = addTaskForm
 
     // this listens and assigns the inputs from the search form
     const handleInputChange = (event) => {
@@ -45,8 +44,10 @@ const AddTask = () => {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        if(!name || !description || !taskstatus || !assignee || !reporter || !deadline) {
+        event.preventDefault()
+        const reporter = username
+        console.log(reporter)
+        if(!name || !description || !assignee || !reporter || !deadline) {
             toast.error("Missing some input field/s!")
         } else {
             axios
@@ -78,29 +79,31 @@ const AddTask = () => {
         <div className="form--background">
             <div className="form--addtask-container">
                 <h1 className="form--title">Create Task</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} autoComplete="off">
+                    <p className="form--label">Task Name</p>
                     <input className="form--addtask-input"
                         type="text"
                         id="name"
                         name="name" 
-                        placeholder="Task Name"
                         onChange={handleInputChange}
                     />
+                    <p className="form--label">Task Description</p>
                     <textarea className="form--addtask-largeinput"
                         type="text"
                         id="description"
                         name="description" 
-                        placeholder="Task Description"
                         onChange={handleInputChange}
                     />
-                    <select className="form--addtask-select" id="userid" name="userid"  onChange={handleInputChange}>
-                                <option hidden disabled selected value>Assignee</option>
+                    <p className="form--label">Assignee</p>
+                    <select className="form--addtask-select" id="assignee" name="assignee"  onChange={handleInputChange}>
+                                <option hidden disabled selected value>Select</option>
                         {userData.map((item) => {
                             return (
                                 <option key={item.userid} value={item.userid}>{item.firstname} {item.lastname}</option>
                             )
                         })}
                     </select>
+                    <p className="form--label">Deadline</p>
                     <input className="form--addtask-datepicker" 
                         type="date" 
                         id="deadline"
