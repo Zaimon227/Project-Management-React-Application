@@ -12,6 +12,17 @@ router.get('/get/:taskid', async (req, res) => {
     res.status(200).json(task)
 })
 
+router.get('/todo', async (req, res) => {
+    const todo = await Task.query()
+    .select('assignee', 'name', 'taskid', 'deadline')
+    .where('taskstatus', 'todo')
+    .orderBy('deadline')
+
+    console.log(todo[0] instanceof Task) // --> true
+
+    res.status(200).json(todo)
+})
+
 router.post('/add', async (req, res) => {
     const { name, description, assignee, reporter, deadline } = req.body
     if (!name && !description && !assignee && !reporter && !deadline) {

@@ -51,6 +51,7 @@
     width: 160px;
     padding: 15px;
     text-align: center;
+    color: #ffffff;
     transition-duration: 0.4s;
 }
 
@@ -101,7 +102,6 @@
 
 li {
     text-decoration: none;
-    color: #ffffff;
 }
 
 a {

@@ -279,3 +279,57 @@
     font-size: 14px;
     text-align: left;
 }
+
+.form--task-details-container {
+    position: fixed;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: #ffffff;
+    width: 700px;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.form--task-details-taskid {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.form--task-details-name {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.form--task-details-description {
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.form--task-details-comments {
+
+}
+
+.form--task-details-assignee {
+    font-weight: 600;
+}
+
+.form--task-details-reporter {
+    font-weight: 600;
+}
+
+.form--task-details-start {
+    font-weight: 600;
+
+}
+
+.form--task-details-deadline {
+    font-weight: 600;
+
+}

@@ -99,7 +99,7 @@ const AddTask = () => {
                                 <option hidden disabled selected value>Select</option>
                         {userData.map((item) => {
                             return (
-                                <option key={item.userid} value={item.userid}>{item.firstname} {item.lastname}</option>
+                                <option key={item.userid} value={item.firstname + " " + item.lastname}>{item.firstname} {item.lastname}</option>
                             )
                         })}
                     </select>

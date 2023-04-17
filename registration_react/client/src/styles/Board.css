@@ -1,8 +1,16 @@
 body {
-    background-color: #f7f7f7;
+    background-color: #ffffff;
+}
+
+.board--create-task-container {
+    background-color: antiquewhite;
+    margin-top: 30px;
+    margin-left: 30px;
+    width: 180px;
 }
 
 .button--add-task {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -11,8 +19,6 @@ body {
     font-size: 14px;
     padding: 12px 30px;
     border: none;
-    margin-top: 30px;
-    margin-left: 30px;
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 
@@ -31,6 +37,7 @@ body {
 }
 
 .board--main-container{
+    display: flex;
     margin: auto;
     width: 100%;
 }
@@ -48,10 +55,27 @@ body {
     margin: 10px;
     margin-top: 30px;
     border-radius: 11px;
-    text-align: center;
-    background-color: #ffffff;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #e8e7e7;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     transition-duration: 0.4s;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #d4d4d4;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .board--ticket-status:hover {
@@ -59,10 +83,71 @@ body {
 }
 
 .board--ticket-status-label {
+    text-align: center;
     font-size: 14px;
     font-weight: 600;
     color: #8d8d8d;
     border-radius: 8px 8px 0 0; 
-    padding: 10px;
+    padding: 10px; 
 }
+
+.board--ticket-container {
+    background-color: #ffffff;
+    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, 
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    transition-duration: 0.4s;
+}
+
+.board--ticket-container-assignee {
+    font-size: 12px;
+    text-align: end;
+}
+
+.board--ticket-container-taskname {
+    font-size: 14px;
+    font-weight: 600;
+    color: #32a852;
+}
+
+.board--ticket-container-taskid {
+    font-size: 12px;
+    text-align: end;
+    float: left;
+}
+
+.board--ticket-container-deadline {
+    font-size: 13px; 
+    margin-bottom: 10px;
+}
+
+.board--header-container {
+    width: 100%;
+}
+
+.board--details-button {
+    float: right;
+    border: none;
+    background: none;
+    padding: 3px;
+}
+
+.board--details-button:hover {
+    cursor: pointer;
+}
+
+.board--details-icon {
+    width: 15px;
+}
+
+.todoList {
+    list-style: none;
+}
+
+
 

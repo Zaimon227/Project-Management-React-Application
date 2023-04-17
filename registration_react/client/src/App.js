@@ -16,6 +16,7 @@ import Board from './pages/Board.js'
 import Religion from './pages/Religion.js'
 import Nationality from './pages/Nationality.js'
 import CivilStatus from './pages/CivilStatus.js'
+import Task from './pages/Task.js'
 
 import AddContact from './pages/insert/AddContact.js'
 import AddReligion from './pages/insert/AddReligion.js'
@@ -51,6 +52,7 @@ function App() {
           <Route path="/religion" element={<Religion />}/>
           <Route path="/nationality" element={<Nationality />}/>
           <Route path="/civilstatus" element={<CivilStatus />}/>
+          <Route path="/task/:taskid" element={<Task />}/>
 
           <Route path="/phonebook/add" element={<AddContact />}/>
           <Route path="/religion/add" element={<AddReligion />}/>
