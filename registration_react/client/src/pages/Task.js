@@ -132,6 +132,7 @@ const Task = () => {
                         <p className="form--task-details-description">{description}</p>
                         <div className="form--task-details-attachments-container">
                             <p className="form--task-details-attachments">Attachments</p>
+                            <Link to={`/task/${taskid}/attachment`}>
                             <button className="form-attachments-button">
                                 <img 
                                     src={require('../images/attachment.png')}
@@ -139,6 +140,7 @@ const Task = () => {
                                     alt="phonebook"
                                 />
                             </button>
+                            </Link>
                         </div>
                         <div className="form--task-details-comments-container">
                             <p className="form--task-details-comments">Comments</p>

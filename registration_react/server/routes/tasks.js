@@ -4,6 +4,56 @@ const router = express.Router()
 const { beforeInsert } = require("../models/taskModel")
 const Task = require('../models/taskModel')
 
+// --------------------- IMAGE UPLOADING -----------------------------------
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb (null, '../client/src/attachments')
+    },
+    filename: (req, file, cb) => {
+        cb (null, Date.now() + "_" + file.originalname)
+    }
+})
+
+const upload = multer({ 
+    storage: storage
+})
+
+router.put('/attach/:taskid', upload.single('attachment'), async (req, res) => {
+    const {taskid} = req.params
+    const attachment = req.file.filename
+    console.log(attachment)
+
+    if (!req.file) {
+        console.log("No file upload")
+    } else {
+        console.log(req.file.path)
+        console.log("file uploaded")
+    }
+
+    const objAttachment = {
+        attachment: attachment
+    }
+
+    const jsonComment = JSON.stringify(objAttachment)
+    
+
+    const updateAttachment = await Task.query()
+        .findById(taskid)
+        .patch({
+            attachments: jsonComment
+        })
+
+    if (!updateAttachment) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with taskid ${taskid} failed!` })
+    } 
+
+    res.status(200).json({ success:true })
+})
+// ----------------- END OF IMAGE UPLOADING ------------------------------------------
+
 router.get('/get/:taskid', async (req, res) => {
     const {taskid} = req.params
     const task = await Task.query().findById(taskid)
@@ -231,7 +281,7 @@ router.put('/update/:taskid', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
     const {id} = req.params
-    const deleteContact = await Contact.query().deleteById(id);
+    const deleteContact = await Contact.query().deleteById(id)
 
     if (!deleteContact) {
         return res

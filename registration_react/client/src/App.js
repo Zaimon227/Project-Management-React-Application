@@ -23,6 +23,7 @@ import AddReligion from './pages/insert/AddReligion.js'
 import AddNationality from './pages/insert/AddNationality.js'
 import AddCivilStatus from './pages/insert/AddCivilStatus.js'
 import AddTask from './pages/insert/AddTask.js'
+import AddAttachment from './pages/insert/AddAttachment.js'
 
 import EditProfilePicture from './pages/update/EditProfilePicture.js'
 import EditContact from './pages/update/EditContact.js'
@@ -59,6 +60,7 @@ function App() {
           <Route path="/nationality/add" element={<AddNationality />}/>
           <Route path="/civilstatus/add" element={<AddCivilStatus />}/>
           <Route path="/board/add" element={<AddTask />}/>
+          <Route path="/task/:taskid/attachment" element={<AddAttachment />}/>
 
           <Route path="/users/profile/:userid" element={<EditProfilePicture />}/>
           <Route path="/phonebook/update/:id" element={<EditContact />}/>

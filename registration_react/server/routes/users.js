@@ -176,6 +176,7 @@ router.post('/signup', async (req, res) => {
     }
     const insertUser = await User.query()
     .insert({
+        profilepicture: 'defaultProfile.png',
         firstname: firstname,
         middlename: middlename,
         lastname: lastname,

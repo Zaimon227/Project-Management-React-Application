@@ -41,8 +41,10 @@ const Login = () => {
                 .catch((err) => console.log(err.response.data))
                 if (response.data.body.length > 0) {
                     const firstlastname = response.data.body[0].firstname + " " + response.data.body[0].lastname
-                    setProfilePicture(response.data.body[0].profilepicture)
-                    setUsername(firstlastname)
+
+                    localStorage.setItem("lsProfilePicture", response.data.body[0].profilepicture)
+                    localStorage.setItem("lsUsername", firstlastname)
+                    
                     setTimeout(() => navigate('/home'), 500)
                 } else {
                     toast.error("Invalid Credentials")

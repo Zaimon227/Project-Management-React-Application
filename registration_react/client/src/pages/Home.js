@@ -11,6 +11,8 @@ const Home = () => {
     const { username, setUsername } = useContext(Username)
     const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
 
+    console.log(profilePicture)
+
     return (
         <div className="home--main">
             {/* --- Componentable?? --- */}
@@ -18,11 +20,11 @@ const Home = () => {
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
                         <img 
-                            src={require(`../uploads/${profilePicture}`)}
+                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
                             className="menubar--profile-picture"
                             alt="phonebook"
                         />
-                        <p className="menubar--profile-username">{username}</p>
+                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
                     </div>
                 </div>
                 <ul>
