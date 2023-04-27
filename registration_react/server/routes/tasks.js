@@ -68,6 +68,17 @@ router.get('/invalid', async (req, res) => {
     res.status(200).json(invalid)
 })
 
+router.get('/:taskid/comments', async (req, res) => {
+    const {taskid} = req.params
+    const comments = await Task.query()
+    .select('comments')
+    .where('taskid', taskid)
+
+    console.log(comments[0] instanceof Task) // --> true
+
+    res.status(200).json(comments)
+})
+
 router.post('/add', async (req, res) => {
     const { name, description, assignee, reporter, deadline } = req.body
     if (!name && !description && !assignee && !reporter && !deadline) {
@@ -93,17 +104,15 @@ router.post('/add', async (req, res) => {
 
 router.put('/:taskid/comment', async (req, res) => {
     const {taskid} = req.params
-    const {comment, commenter} = req.body
-    if (!comment && !commenter) {
+    const {addCommentData} = req.body
+
+    if (!addCommentData) {
         return res
         .status(400)
         .json({success: false, msg: 'Incomplete Inputs'})
     }
 
-    jsonComment = JSON.stringify({
-        comment: comment, 
-        commenter: commenter,
-    })
+    const jsonComment = JSON.stringify(addCommentData)
 
     const insertComment = await Task.query()
     .findById(taskid)

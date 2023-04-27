@@ -372,7 +372,7 @@
 
 .form--task-details-comments-container {
     background-color: #e8e7e7;
-    padding: 10px 20px;
+    padding: 20px 10px;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 11px;
@@ -389,7 +389,7 @@
 .comment-component {
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 10px;
+    padding: 10px 10px 30px 10px;
     margin-top: 15px;
     margin-bottom: 15px;
 }
@@ -402,6 +402,13 @@
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 10px;
+}
+
+.comment-time {
+    font-size: 11px;
+    margin-top: 5px;
+    float: right;
+    color: #868686
 }
 
 .form--input-comment {

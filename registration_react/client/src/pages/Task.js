@@ -11,8 +11,7 @@ const initialTaskDetailsForm = {
     assignee: "",
     reporter: "",
     start: "",
-    deadline: "",
-    comments: "",
+    deadline: ""
 }
 
 const initialCommentForm = {
@@ -25,21 +24,57 @@ const Task = () => {
 
     // TASK
     const [taskDetailsForm, setTaskDetailsForm] = useState(initialTaskDetailsForm)
-    const { name, description, assignee, reporter, start, deadline, comments } = taskDetailsForm
+    const { name, description, assignee, reporter, start, deadline } = taskDetailsForm
 
     // COMMENTS
     const [commentForm, setCommentForm] = useState(initialCommentForm)
     const {comment} = commentForm
-    // const CommentsObj = JSON.parse(comments)
 
+    const [commentData, setCommentData] = useState([])
+    const [addCommentData, setAddCommentData] = useState([])
+
+    const loadTaskData = async () => {
+        await axios.get(`http://localhost:5000/task/get/${taskid}`)
+        .then((resp) => setTaskDetailsForm({...resp.data}))
+    }
+
+    var commentsData
+    var parsedCommentsData
+
+    const loadCommentData = async () => {
+        const response = await axios.get(`http://localhost:5000/task/${taskid}/comments`)
+
+        commentsData = (response.data)
+        // console.log("---------------------------------------------")
+        // console.log("Retrieved JSON from Database:")
+        // console.log(commentsData[0].comments)
+        
+
+        parsedCommentsData = JSON.parse(commentsData[0].comments)
+        // console.log("---------------------------------------------")
+        // console.log("Parsed Comments Data:")
+        // console.log(parsedCommentsData)
+
+        // console.log("---------------------------------------------")
+        // console.log("Comments Data Passed to State:")
+        setCommentData(parsedCommentsData)
+        setAddCommentData(parsedCommentsData)
+        //console.log(commentData)
+    }
+
+    // console.log(commentData)
+    // console.log("---------------------------------------------")
+    // console.log(addCommentData)
+    
     const navigate = useNavigate()
 
     const { taskid } = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/task/get/${taskid}`)
-        .then((resp) => setTaskDetailsForm({...resp.data}))
+        loadTaskData()
+        loadCommentData()
     }, [taskid])
+
 
     const handleInputChange = (event) => {
         const {name, value} = event.target
@@ -48,24 +83,43 @@ const Task = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const commenter = username
+        var commenter = username
+        var today = new Date()
+        var date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        var commentTime = date + " " + time
+
+        const jsonComment = {
+            comment: comment,
+            commenter: commenter,
+            commentTime: commentTime
+        }
+        // console.log("---------------------------------------------")
+        // console.log("JSON comment to be added:")
+        // console.log(jsonComment)
+
+        addCommentData.splice(0, 0, jsonComment)
+        // console.log(addCommentData)
+
         if(!comment) {
             toast.error("Empty comment!")
         } else {
             axios
                 .put(`http://localhost:5000/task/${taskid}/comment`, {
-                    comment,
-                    commenter
+                    addCommentData
                 })
                 .then(() => {
                     setCommentForm({
-                        comment: "",
-                        commenter: ""
+                        comment: ""
                     })
+                    commenter = ""
+                    commentTime = ""
                 })
                 .catch((err) => console.log(err.response.data))
                 toast.success("Comment Applied!")
         }
+
+        setCommentData(addCommentData)
     }
 
     return (
@@ -98,28 +152,15 @@ const Task = () => {
                                 />
                                 <input className="form--comment-submit" type="submit" value="Comment"/>
                             </form>
-                            
-                                {/* {CommentsObj.map((item) => {
+                                {commentData !== null && commentData.map((item, index) => {
                                     return (
-                                        <option key={item.index} value={item.comment + " " + item.lastname}>{item.firstname} {item.lastname}</option>
+                                        <div className="comment-component" key={index}>
+                                            <p className="comment-commenter">{item.commenter}</p>
+                                            <p className="comment-text">{item.comment}</p>
+                                            <p className="comment-time">{format(new Date(item.commentTime), 'MMM dd, yyyy - h:mm a')}</p>
+                                        </div>
                                     )
-                                })} */}
-                            <div className="comment-component">
-                                <p className="comment-commenter">Firstname Lastname</p>
-                                <p className="comment-text">Testing a long string for comment. Now im putting random words that comes into my mind. I want to eat pizza</p>
-                            </div>
-                            <div className="comment-component">
-                                <p className="comment-commenter">Firstname Lastname</p>
-                                <p className="comment-text">Testing a long string for comment. Now im putting random words that comes into my mind. I want to eat pizza</p>
-                            </div>
-                            <div className="comment-component">
-                                <p className="comment-commenter">Firstname Lastname</p>
-                                <p className="comment-text">Testing a long string for comment. Now im putting random words that comes into my mind. I want to eat pizza</p>
-                            </div>
-                            <div className="comment-component">
-                                <p className="comment-commenter">Firstname Lastname</p>
-                                <p className="comment-text">Testing a long string for comment. Now im putting random words that comes into my mind. I want to eat pizza</p>
-                            </div>
+                                })}
                         </div>
                     </div>
                     <div className="form--task-rightside-contents">

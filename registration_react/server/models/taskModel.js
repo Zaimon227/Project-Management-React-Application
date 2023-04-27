@@ -8,7 +8,7 @@ class Task extends Model {
         return 'taskid';
     }
     $beforeInsert() {
-        this.start = new Date().toISOString();
+        this.time = new Date().toISOString();
     }
 }
 
