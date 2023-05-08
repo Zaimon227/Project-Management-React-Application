@@ -8,10 +8,10 @@ const Task = require('../models/taskModel')
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb (null, '../client/src/attachments')
+        cb (null, '../client/public/attachments')
     },
     filename: (req, file, cb) => {
-        cb (null, Date.now() + "_" + file.originalname)
+        cb (null, file.originalname)
     }
 })
 
@@ -19,38 +19,69 @@ const upload = multer({
     storage: storage
 })
 
-router.put('/attach/:taskid', upload.single('attachment'), async (req, res) => {
+router.put('/attach/:taskid', upload.array('file'), async (req, res) => {
+    const file = req.files
+
     const {taskid} = req.params
-    const attachment = req.file.filename
-    console.log(attachment)
 
-    if (!req.file) {
-        console.log("No file upload")
-    } else {
-        console.log(req.file.path)
-        console.log("file uploaded")
-    }
+    const attachments = await Task.query()
+        .select('attachments')
+        .where('taskid', taskid)
 
-    const objAttachment = {
-        attachment: attachment
-    }
+    // convert attachments to object
+    var attachmentsData = (attachments)
+    var parsedAttachmentsData = JSON.parse(attachmentsData[0].attachments)
+    console.log("---------------------------------")
+    console.log(attachments)
+    console.log("---------------------------------")
+    console.log(parsedAttachmentsData)
+    console.log("---------------------------------")
 
-    const jsonComment = JSON.stringify(objAttachment)
+    const addJsonFile = []
+
+    if (parsedAttachmentsData == null) {
+        if (Array.isArray(file) && file.length > 0) {
+            for (let index = 0; index < file.length; index++) {
+                const jsonFile = {
+                    filename: file[index].filename
+                }
+                addJsonFile.splice(0, 0, jsonFile)
+            }
     
-
-    const updateAttachment = await Task.query()
-        .findById(taskid)
-        .patch({
-            attachments: jsonComment
-        })
-
-    if (!updateAttachment) {
-        return res
-        .status(404)
-        .json({success: false, msg: `update with taskid ${taskid} failed!` })
-    } 
-
-    res.status(200).json({ success:true })
+            const stringConvertFile = JSON.stringify(addJsonFile)
+    
+            const insertAttachment = await Task.query()
+            .findById(taskid)
+            .patch({
+                attachments: stringConvertFile
+            })
+    
+            res.status(200).json(insertAttachment)
+        } else {
+            throw new Error("file upload unsuccessful")
+        }
+    } else {
+        if (Array.isArray(file) && file.length > 0) {
+            for (let index = 0; index < file.length; index++) {
+                const jsonFile = {
+                    filename: file[index].filename
+                }
+                parsedAttachmentsData.splice(0, 0, jsonFile)
+            }
+    
+            const stringConvertFile = JSON.stringify(parsedAttachmentsData)
+    
+            const insertAttachment = await Task.query()
+            .findById(taskid)
+            .patch({
+                attachments: stringConvertFile
+            })
+    
+            res.status(200).json(insertAttachment)
+        } else {
+            throw new Error("file upload unsuccessful")
+        }
+    }
 })
 // ----------------- END OF IMAGE UPLOADING ------------------------------------------
 
@@ -129,6 +160,17 @@ router.get('/:taskid/comments', async (req, res) => {
     res.status(200).json(comments)
 })
 
+router.get('/:taskid/attachments', async (req, res) => {
+    const {taskid} = req.params
+    const attachments = await Task.query()
+    .select('attachments')
+    .where('taskid', taskid)
+
+    console.log(attachments[0] instanceof Task) // --> true
+
+    res.status(200).json(attachments)
+})
+
 router.post('/add', async (req, res) => {
     const { name, description, assignee, reporter, deadline } = req.body
     if (!name && !description && !assignee && !reporter && !deadline) {
@@ -154,15 +196,15 @@ router.post('/add', async (req, res) => {
 
 router.put('/:taskid/comment', async (req, res) => {
     const {taskid} = req.params
-    const {addCommentData} = req.body
+    const {conditionalAddingCommentData} = req.body
 
-    if (!addCommentData) {
+    if (!conditionalAddingCommentData) {
         return res
         .status(400)
         .json({success: false, msg: 'Incomplete Inputs'})
     }
 
-    const jsonComment = JSON.stringify(addCommentData)
+    const jsonComment = JSON.stringify(conditionalAddingCommentData)
 
     const insertComment = await Task.query()
     .findById(taskid)

@@ -384,6 +384,7 @@
 
 .form--task-details-comments {
     font-weight: 600;
+    margin-left: 10px;
 }
 
 .comment-component {
@@ -491,4 +492,19 @@
 
 .form--task-back:hover {
     background-color: #994040;
+}
+
+.attachment-component {
+    background-color: #f1f1f1;
+    padding: 5px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.attachment-filename {
+    font-size: 13px;
+    font-weight: 600;
+    color: #32a852;
+    cursor: pointer;
 }

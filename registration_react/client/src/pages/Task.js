@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import { Username } from '../Context'
 import axios from 'axios'
@@ -20,7 +20,7 @@ const initialCommentForm = {
 
 const Task = () => {
 
-    const { username, setUsername } = useContext(Username)
+    const username = localStorage.getItem("lsUsername")
 
     // TASK
     const [taskDetailsForm, setTaskDetailsForm] = useState(initialTaskDetailsForm)
@@ -32,6 +32,9 @@ const Task = () => {
 
     const [commentData, setCommentData] = useState([])
     const [addCommentData, setAddCommentData] = useState([])
+
+    // ATTACHMENTS
+    const [attachmentData, setAttachmentData] = useState([])
 
     const loadTaskData = async () => {
         await axios.get(`http://localhost:5000/task/get/${taskid}`)
@@ -45,34 +48,28 @@ const Task = () => {
         const response = await axios.get(`http://localhost:5000/task/${taskid}/comments`)
 
         commentsData = (response.data)
-        // console.log("---------------------------------------------")
-        // console.log("Retrieved JSON from Database:")
-        // console.log(commentsData[0].comments)
-        
-
         parsedCommentsData = JSON.parse(commentsData[0].comments)
-        // console.log("---------------------------------------------")
-        // console.log("Parsed Comments Data:")
-        // console.log(parsedCommentsData)
-
-        // console.log("---------------------------------------------")
-        // console.log("Comments Data Passed to State:")
         setCommentData(parsedCommentsData)
         setAddCommentData(parsedCommentsData)
-        //console.log(commentData)
     }
 
-    // console.log(commentData)
-    // console.log("---------------------------------------------")
-    // console.log(addCommentData)
-    
-    const navigate = useNavigate()
+    var attachmentsData
+    var parsedAttachmentsData
 
+    const loadAttachmentData = async () => {
+        const response = await axios.get(`http://localhost:5000/task/${taskid}/attachments`)
+
+        attachmentsData = (response.data)
+        parsedAttachmentsData = JSON.parse(attachmentsData[0].attachments)
+        setAttachmentData(parsedAttachmentsData)
+    }
+    
     const { taskid } = useParams()
 
     useEffect(() => {
         loadTaskData()
         loadCommentData()
+        loadAttachmentData()
     }, [taskid])
 
 
@@ -94,19 +91,22 @@ const Task = () => {
             commenter: commenter,
             commentTime: commentTime
         }
-        // console.log("---------------------------------------------")
-        // console.log("JSON comment to be added:")
-        // console.log(jsonComment)
-
-        addCommentData.splice(0, 0, jsonComment)
-        // console.log(addCommentData)
+        
+        var conditionalAddingCommentData
+        
+        if (addCommentData == null) {
+            conditionalAddingCommentData = [jsonComment]
+        } else {
+            addCommentData.splice(0, 0, jsonComment)
+            conditionalAddingCommentData = addCommentData
+        }
 
         if(!comment) {
             toast.error("Empty comment!")
         } else {
             axios
                 .put(`http://localhost:5000/task/${taskid}/comment`, {
-                    addCommentData
+                    conditionalAddingCommentData
                 })
                 .then(() => {
                     setCommentForm({
@@ -119,7 +119,17 @@ const Task = () => {
                 toast.success("Comment Applied!")
         }
 
-        setCommentData(addCommentData)
+        setCommentData(conditionalAddingCommentData)
+        setAddCommentData(conditionalAddingCommentData)
+    }
+
+    const downloadFileAtURL = (filename) => {
+        const aTag = document.createElement('a')
+        aTag.href = `http://localhost:3000/attachments/${filename}`
+        aTag.setAttribute('download', `${filename}`)
+        document.body.appendChild(aTag)
+        aTag.click()
+        aTag.remove()
     }
 
     return (
@@ -141,6 +151,13 @@ const Task = () => {
                                 />
                             </button>
                             </Link>
+                            {attachmentData !== null && attachmentData.map((item, index) => {
+                                    return (
+                                        <div className="attachment-component" key={index}>
+                                            <p className="attachment-filename" onClick={() => downloadFileAtURL(item.filename)}>{item.filename}</p>
+                                        </div>
+                                    )
+                                })}
                         </div>
                         <div className="form--task-details-comments-container">
                             <p className="form--task-details-comments">Comments</p>

@@ -10,34 +10,36 @@ const AddAttachment = () => {
     const { taskid } = useParams()
 
     // ATTACHMENT
-    const [attachmentData, setAttachmentData] = useState([])
+    // const [attachmentData, setAttachmentData] = useState([])
 
     // UPLOADING
-    const [file, setFile] = useState()
-    const [fileName, setFileName] = useState("")
+    const [fileList, setFileList] = useState([])
+    // const [fileName, setFileName] = useState("")
 
     const handleInputChange = (event) => {
-        setFile(event.target.files)
-        setFileName(event.target.files.name)
+        setFileList(event.target.files)
+        // setFileName(event.target.files.name)
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        console.log(fileList)
         const formData = new FormData()
 
-        for (let i = 0; i < file.length; i++) {
-            formData.append("attachment", file[i])
+        for (let index = 0; index < fileList.length; index++) {
+            const file = fileList[index]
+            formData.append("file", file)
         }
 
-        // formData.append("attachment", file)
-        // formData.append("fileName", fileName)
-        console.log(formData)
-
-        axios.put(`http://localhost:5000/task/attach/${taskid}`, formData)
-        .then ((response) => response.data)
-
-        toast.success("File/s Uploaded!")
-        setTimeout(() => navigate(`/task/${taskid}`), 500)
+        try {
+            const result = await axios.put(`http://localhost:5000/task/attach/${taskid}`, formData)
+            console.log(result)
+            toast.success("File/s Uploaded!")
+            setTimeout(() => navigate(`/task/${taskid}`), 500)
+        } catch (error) {
+            console.error(error)
+            setTimeout(() => navigate(`/task/${taskid}`), 500)
+        } 
     } 
 
     return (
@@ -45,8 +47,11 @@ const AddAttachment = () => {
             <div className="form--editprofilepicture-container">
                 <h1 className="form--title">Attach Files</h1>
                 <div className="form--upload-status-container">
-                    {fileName !== "" &&
-                        <p className="form--upload-status">File Selected!</p>
+                    {fileList.length === 1  &&
+                        <p className="form--upload-status">{fileList.length} file selected</p>
+                    }
+                    {fileList.length > 1 &&
+                        <p className="form--upload-status">{fileList.length} files selected</p>
                     }
                 </div>
                 <form onSubmit={handleSubmit} autoComplete="off" encType="multipart/form-data">
@@ -54,7 +59,7 @@ const AddAttachment = () => {
                         type="file"
                         multiple
                         id="attachment--upload"
-                        name="attachment" 
+                        name="attachments" 
                         onChange={handleInputChange}
                     />
                     <label for="attachment--upload">
