@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
@@ -17,9 +16,6 @@ const initialSearchForm = {
 var page = 1
 
 const Users = () => {
-
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
 
     // Users
     const [data, setData] = useState([])

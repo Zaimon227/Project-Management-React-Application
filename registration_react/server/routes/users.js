@@ -75,6 +75,17 @@ router.get('/get/:userid', async (req, res) => {
     res.status(200).json(user)
 })
 
+router.get('/profilepicture/:userid', async (req, res) => {
+    const {userid} = req.params
+    const profilepicture = await User.query()
+    .select('profilepicture')
+    .where('userid', userid)
+
+    console.log(profilepicture[0] instanceof User) // --> true
+
+    res.status(200).json(profilepicture[0].profilepicture)
+})
+
 router.get('/:pageNumber', async (req, res) => {
     const {pageNumber} = req.params
     const limit = 8
