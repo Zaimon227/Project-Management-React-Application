@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
-import { Username } from '../Context'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -198,7 +197,9 @@ const Task = () => {
                             <p className="form--task-details-label">Deadline:</p>
                             <p className="form--task-details-deadline">{!deadline ? deadline: format(new Date(deadline), 'MMM dd, yyyy')}</p>
                         </div>
+                        <Link to={`/task/update/${taskid}`}>
                         <button className="form--task-edit">EDIT</button>
+                        </Link>
                         <Link to='/board'>
                         <button className="form--task-back">BACK</button>
                         </Link>

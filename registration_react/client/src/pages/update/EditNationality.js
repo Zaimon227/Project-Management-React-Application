@@ -68,7 +68,7 @@ const EditNationality = () => {
                         value={description || ""}
                         onChange={handleInputChange}
                     />
-                    <input className="form--add-submit" type="submit" value="EDIT"/>
+                    <input className="form--add-submit" type="submit" value="APPLY"/>
                     <Link to='/nationality'>
                     <input className="form--back" type="button" value="BACK"/>
                     </Link>

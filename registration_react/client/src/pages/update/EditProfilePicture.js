@@ -20,9 +20,6 @@ const EditProfilePicture = () => {
         setProfilePicture(response.data)
     }
 
-    //setProfilePictureContainer(profilepicture)
-    console.log(profilePicture)
-
     useEffect(() => {
         loadProfilePicture()
     }, [userid])

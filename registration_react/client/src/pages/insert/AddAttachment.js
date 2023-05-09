@@ -9,16 +9,11 @@ const AddAttachment = () => {
 
     const { taskid } = useParams()
 
-    // ATTACHMENT
-    // const [attachmentData, setAttachmentData] = useState([])
-
     // UPLOADING
     const [fileList, setFileList] = useState([])
-    // const [fileName, setFileName] = useState("")
 
     const handleInputChange = (event) => {
         setFileList(event.target.files)
-        // setFileName(event.target.files.name)
     }
 
     const handleSubmit = async (event) => {
@@ -30,6 +25,8 @@ const AddAttachment = () => {
             const file = fileList[index]
             formData.append("file", file)
         }
+
+        console.log(formData)
 
         try {
             const result = await axios.put(`http://localhost:5000/task/attach/${taskid}`, formData)
@@ -44,7 +41,7 @@ const AddAttachment = () => {
 
     return (
         <div className="form--background">
-            <div className="form--editprofilepicture-container">
+            <div className="form--addattachments-container">
                 <h1 className="form--title">Attach Files</h1>
                 <div className="form--upload-status-container">
                     {fileList.length === 1  &&
@@ -53,6 +50,18 @@ const AddAttachment = () => {
                     {fileList.length > 1 &&
                         <p className="form--upload-status">{fileList.length} files selected</p>
                     }
+                    {/* <div>
+                        {fileList !== null &&
+                            fileList.map((item, index) => {
+                            return (
+                                <div className="attachment-component" key={index}>
+                                    <p className="attachment-filename">{item.file.name}</p>
+                                </div>
+                            )
+                            })
+                        }
+                    </div> */}
+                    
                 </div>
                 <form onSubmit={handleSubmit} autoComplete="off" encType="multipart/form-data">
                     <input className="form--upload-profile-picture-input"
@@ -63,11 +72,6 @@ const AddAttachment = () => {
                         onChange={handleInputChange}
                     />
                     <label for="attachment--upload">
-                        <img 
-                            src={require(`../../images/attachment.png`)}
-                            className="profile--upload-icon"
-                            alt="attachment icon"
-                        />
                         Upload File
                     </label>
                     <div className="form-buttons-container">

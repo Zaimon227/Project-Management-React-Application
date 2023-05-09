@@ -30,6 +30,7 @@ import EditContact from './pages/update/EditContact.js'
 import EditReligion from './pages/update/EditReligion.js'
 import EditNationality from './pages/update/EditNationality.js'
 import EditCivilStatus from './pages/update/EditCivilStatus.js'
+import EditTask from './pages/update/EditTask.js'
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
           <Route path="/religion/update/:religionid" element={<EditReligion />}/>
           <Route path="/nationality/update/:nationalityid" element={<EditNationality />}/>
           <Route path="/civilstatus/update/:civilstatusid" element={<EditCivilStatus />}/>
+          <Route path="/task/update/:taskid" element={<EditTask />}/>
         </Routes>
 
       </ProfilePicture.Provider>

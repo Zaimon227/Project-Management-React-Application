@@ -31,11 +31,6 @@ router.put('/attach/:taskid', upload.array('file'), async (req, res) => {
     // convert attachments to object
     var attachmentsData = (attachments)
     var parsedAttachmentsData = JSON.parse(attachmentsData[0].attachments)
-    console.log("---------------------------------")
-    console.log(attachments)
-    console.log("---------------------------------")
-    console.log(parsedAttachmentsData)
-    console.log("---------------------------------")
 
     const addJsonFile = []
 
@@ -217,34 +212,6 @@ router.put('/:taskid/comment', async (req, res) => {
     res.status(201).send({success: true})
 })
 
-router.put('/update/:taskid', async (req, res) => {
-    const {taskid} = req.params
-    const {name, description, email, contact} = req.body
-
-    if (!name && !address && !email && !contact) {
-        return res
-        .status(404)
-        .json({success: false, msg: 'Incomplete Inputs' })
-    }
-
-    const updateContact = await Contact.query()
-        .findById(id)
-        .patch({
-            name: name,
-            address: address,
-            email: email,
-            contact: contact
-        });
-
-    if (!updateContact) {
-        return res
-        .status(404)
-        .json({success: false, msg: `update with id ${id} failed!` })
-    }
-
-    res.status(200).json({ success:true })
-})
-
 router.put('/movedown/:draggableId/:indexDestination/:indexSource', async (req, res) => {
     const {draggableId, indexDestination, indexSource} = req.params
     const addedIndexDestination = parseInt(indexDestination) + 1
@@ -317,7 +284,30 @@ router.put('/movetable/:droppableIdSource/:droppableIdDestination/:draggableId/:
 
 router.put('/update/:taskid', async (req, res) => {
     const {taskid} = req.params
-    const {name, description, email, contact} = req.body
+    const {name, description, assignee, deadline} = req.body
+
+    if (!name && !description && !assignee && !deadline) {
+        return res
+        .status(404)
+        .json({success: false, msg: 'Incomplete Inputs' })
+    }
+
+    const updateTask = await Task.query()
+        .findById(taskid)
+        .patch({
+            name: name,
+            description: description,
+            assignee: assignee,
+            deadline: deadline
+        });
+
+    if (!updateTask) {
+        return res
+        .status(404)
+        .json({success: false, msg: `update with taskid ${taskid} failed!` })
+    }
+
+    res.status(200).json({ success:true })
 })
 
 

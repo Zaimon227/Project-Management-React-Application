@@ -69,7 +69,7 @@ const EditCivilStatus = () => {
                         value={description || ""}
                         onChange={handleInputChange}
                     />
-                    <input className="form--add-submit" type="submit" value="EDIT"/>
+                    <input className="form--add-submit" type="submit" value="APPLY"/>
                     <Link to='/civilstatus'>
                     <input className="form--back" type="button" value="BACK"/>
                     </Link>

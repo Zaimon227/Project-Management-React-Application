@@ -134,6 +134,7 @@ body {
     border: none;
     background: none;
     padding: 3px;
+    margin-left: 10px;
 }
 
 .board--details-button:hover {
