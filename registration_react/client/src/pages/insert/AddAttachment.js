@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from "react-router-dom"
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -11,6 +11,13 @@ const AddAttachment = () => {
 
     // UPLOADING
     const [fileList, setFileList] = useState([])
+
+    useEffect(() => {
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleInputChange = (event) => {
         setFileList(event.target.files)
@@ -29,7 +36,7 @@ const AddAttachment = () => {
         console.log(formData)
 
         try {
-            const result = await axios.put(`http://localhost:5000/task/attach/${taskid}`, formData)
+            const result = await axios.put(`http://localhost:3001/task/attach/${taskid}`, formData)
             console.log(result)
             toast.success("File/s Uploaded!")
             setTimeout(() => navigate(`/task/${taskid}`), 500)
@@ -71,7 +78,7 @@ const AddAttachment = () => {
                         name="attachments" 
                         onChange={handleInputChange}
                     />
-                    <label for="attachment--upload">
+                    <label htmlFor="attachment--upload">
                         Upload File
                     </label>
                     <div className="form-buttons-container">

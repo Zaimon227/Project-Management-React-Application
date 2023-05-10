@@ -1,17 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import axios from 'axios'
 import '../styles/Navbar.css'
 import '../styles/Home.css'
 
 const Home = () => {
 
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
+    const navigate = useNavigate()
 
-    console.log(profilePicture)
+    useEffect(() => {
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const handleLogout = async () => {
+        setTimeout(() => navigate(`/login`))
+        localStorage.clear()
+    }
 
     return (
         <div className="home--main">
@@ -19,16 +25,28 @@ const Home = () => {
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
-                        <img 
-                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
-                            className="menubar--profile-picture"
-                            alt="phonebook"
-                        />
-                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        {(!localStorage.getItem("lsProfilePicture")) ? 
+                            <img 
+                                src={require(`../uploads/defaultProfile.png`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        :
+                            <img 
+                                src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        }
+                        {(!localStorage.getItem("lsUsername")) ?
+                            <p className="menubar--profile-username">Username</p>
+                        :
+                            <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        }
                     </div>
                 </div>
                 <ul>
-                    <Link to="/home">
+                    <Link to="/">
                     <li className="menubar--current">
                         <img 
                             src={require('../images/home.png')}
@@ -83,15 +101,13 @@ const Home = () => {
                             </ul>
                         </div>
                     </li>
-                    <Link to="/">
-                        <button className="menubar--logout">
-                            <img 
-                                src={require('../images/signout.png')}
-                                className="menubar--logout-icon"
-                                alt="sign out"
-                            />
-                        </button>
-                    </Link>
+                    <button className="menubar--logout" onClick={handleLogout}>
+                        <img 
+                            src={require('../images/signout.png')}
+                            className="menubar--logout-icon"
+                            alt="sign out"
+                        />
+                    </button>
                 </ul>
             </div>
 
@@ -101,7 +117,7 @@ const Home = () => {
                     className="home--icon"
                     alt="home"
                 />
-                <h2 className="home--greetings">Welcome { username }!</h2>
+                <h2 className="home--greetings">Welcome { localStorage.getItem("lsUsername") }!</h2>
                 <p className="home--about">Manage users, phonebook, religion, nationality, or civil status</p>
             </div>
         </div>

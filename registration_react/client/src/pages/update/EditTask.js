@@ -23,7 +23,7 @@ const EditTask = () => {
 
     // fetch for task details
     const loadTaskData = async () => {
-        axios.get(`http://localhost:5000/task/get/${taskid}`)
+        axios.get(`http://localhost:3001/task/get/${taskid}`)
         .then((resp) => setEditTaskForm({...resp.data}))
     }
 
@@ -31,13 +31,18 @@ const EditTask = () => {
     const [userData, setUserData] = useState([])
 
     const loadUserData = async () => {
-        const response = await axios.get(`http://localhost:5000/user`)
+        const response = await axios.get(`http://localhost:3001/user`)
         setUserData(response.data)
     }
 
     useEffect(() => {
         loadTaskData()
         loadUserData()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [taskid])
 
     const handleSubmit = (event) => {
@@ -46,7 +51,7 @@ const EditTask = () => {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .put(`http://localhost:5000/task/update/${taskid}`, {
+                .put(`http://localhost:3001/task/update/${taskid}`, {
                     name,
                     description,
                     assignee,

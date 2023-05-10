@@ -19,8 +19,12 @@ const EditReligion = () => {
     const { religionid } = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/religion/get/${religionid}`)
+        axios.get(`http://localhost:3001/religion/get/${religionid}`)
         .then((resp) => setEditReligionForm({...resp.data}))
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
     }, [religionid])
 
     const handleSubmit = (event) => {
@@ -29,7 +33,7 @@ const EditReligion = () => {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .put(`http://localhost:5000/religion/update/${religionid}`, {
+                .put(`http://localhost:3001/religion/update/${religionid}`, {
                     religionname,
                     description
                 })

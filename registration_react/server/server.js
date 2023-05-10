@@ -12,10 +12,9 @@ const religionRoutes = require('./routes/religion')
 const nationalityRoutes = require('./routes/nationality')
 const civilstatusRoutes = require('./routes/civilstatus')
 
-
 app.use(express.json())
 app.use(cors())
-
+  
 // MORGAN LOGGER
 app.use(morgan('dev'))
 
@@ -27,6 +26,6 @@ app.use('/nationality', nationalityRoutes)
 app.use('/civilstatus', civilstatusRoutes)
 app.use('/task', tasksRoutes)
 
-app.listen(5000, () => {
-    console.log('Server is listening on port 5000.. ')
+app.listen(3001, () => {
+    console.log('Server is listening on port 3001.. ')
 })

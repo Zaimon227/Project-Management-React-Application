@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -19,13 +19,19 @@ const AddContact = () => {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+    }, [])
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if(!name || !address || !email || !contact) {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .post('http://localhost:5000/contact/add', {
+                .post('http://localhost:3001/contact/add', {
                     name,
                     address,    
                     email,

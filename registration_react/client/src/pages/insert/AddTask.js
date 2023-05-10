@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../../Context'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -16,8 +15,7 @@ const initialAddTaskForm = {
 
 const AddTask = () => {
 
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
+    const username = localStorage.getItem("lsUsername")
 
     const navigate = useNavigate()
 
@@ -25,12 +23,16 @@ const AddTask = () => {
     const [userData, setUserData] = useState([])
 
     const loadUserData = async () => {
-        const response = await axios.get(`http://localhost:5000/user`)
+        const response = await axios.get(`http://localhost:3001/user`)
         setUserData(response.data)
     }
 
     useEffect(() => {
         loadUserData()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
     }, [])
 
     // Add Task Form
@@ -51,7 +53,7 @@ const AddTask = () => {
             toast.error("Missing some input field/s!")
         } else {
             axios
-                .post('http://localhost:5000/task/add', {
+                .post('http://localhost:3001/task/add', {
                     name,
                     description,    
                     taskstatus,

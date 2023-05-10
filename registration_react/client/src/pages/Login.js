@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -12,11 +11,7 @@ const initialLoginForm = {
 
 const Login = () => {
 
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
-
     const [loginForm, setLoginForm] = useState(initialLoginForm)
-    const [data, setData] = useState([]);
     
     const { email, password } = loginForm
 
@@ -34,7 +29,7 @@ const Login = () => {
             toast.error("Please provide value to each input field")
         } else {
             const response = await axios
-                .post('http://localhost:5000/user/login', {
+                .post('http://localhost:3001/user/login', {
                     email,
                     password
                 })
@@ -44,8 +39,9 @@ const Login = () => {
 
                     localStorage.setItem("lsProfilePicture", response.data.body[0].profilepicture)
                     localStorage.setItem("lsUsername", firstlastname)
+                    localStorage.setItem("lsIsLoggedIn", "true")
                     
-                    setTimeout(() => navigate('/home'), 500)
+                    setTimeout(() => navigate('/'), 500)
                 } else {
                     toast.error("Invalid Credentials")
                 } 

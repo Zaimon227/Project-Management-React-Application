@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
   import 'react-toastify/dist/ReactToastify.css'
-
-import { Username } from './Context.js'
-import { ProfilePicture } from './Context.js'
 
 import Login from './pages/Login.js'
 import Signup from './pages/Signup.js'
@@ -34,45 +31,36 @@ import EditTask from './pages/update/EditTask.js'
 
 function App() {
 
-  const [ username, setUsername ] = useState("")
-  const [ profilePicture, setProfilePicture ] = useState("")
-
   return (
     <BrowserRouter>
-      <Username.Provider value={{ username, setUsername }}>
-      <ProfilePicture.Provider value={{ profilePicture, setProfilePicture }}>
+      <ToastContainer position="top-center" />
+      <Routes>
+        <Route exact path="/" element={<Home />}/>
+        <Route path="/signup" element={<Signup />}/>
+        <Route path="/login" element={<Login />}/>
+        
+        <Route path="/users" element={<Users />}/>
+        <Route path="/phonebook" element={<Phonebook />}/>
+        <Route path="/board" element={<Board />}/>
+        <Route path="/religion" element={<Religion />}/>
+        <Route path="/nationality" element={<Nationality />}/>
+        <Route path="/civilstatus" element={<CivilStatus />}/>
+        <Route path="/task/:taskid" element={<Task />}/>
 
-        <ToastContainer position="top-center" />
-        <Routes>
-          <Route exact path="/" element={<Login />}/>
-          <Route path="/signup" element={<Signup />}/>
+        <Route path="/phonebook/add" element={<AddContact />}/>
+        <Route path="/religion/add" element={<AddReligion />}/>
+        <Route path="/nationality/add" element={<AddNationality />}/>
+        <Route path="/civilstatus/add" element={<AddCivilStatus />}/>
+        <Route path="/board/add" element={<AddTask />}/>
+        <Route path="/task/:taskid/attachment" element={<AddAttachment />}/>
 
-          <Route path="/home" element={<Home />}/>
-          <Route path="/users" element={<Users />}/>
-          <Route path="/phonebook" element={<Phonebook />}/>
-          <Route path="/board" element={<Board />}/>
-          <Route path="/religion" element={<Religion />}/>
-          <Route path="/nationality" element={<Nationality />}/>
-          <Route path="/civilstatus" element={<CivilStatus />}/>
-          <Route path="/task/:taskid" element={<Task />}/>
-
-          <Route path="/phonebook/add" element={<AddContact />}/>
-          <Route path="/religion/add" element={<AddReligion />}/>
-          <Route path="/nationality/add" element={<AddNationality />}/>
-          <Route path="/civilstatus/add" element={<AddCivilStatus />}/>
-          <Route path="/board/add" element={<AddTask />}/>
-          <Route path="/task/:taskid/attachment" element={<AddAttachment />}/>
-
-          <Route path="/users/profile/:userid" element={<EditProfilePicture />}/>
-          <Route path="/phonebook/update/:id" element={<EditContact />}/>
-          <Route path="/religion/update/:religionid" element={<EditReligion />}/>
-          <Route path="/nationality/update/:nationalityid" element={<EditNationality />}/>
-          <Route path="/civilstatus/update/:civilstatusid" element={<EditCivilStatus />}/>
-          <Route path="/task/update/:taskid" element={<EditTask />}/>
-        </Routes>
-
-      </ProfilePicture.Provider>
-      </Username.Provider>
+        <Route path="/users/profile/:userid" element={<EditProfilePicture />}/>
+        <Route path="/phonebook/update/:id" element={<EditContact />}/>
+        <Route path="/religion/update/:religionid" element={<EditReligion />}/>
+        <Route path="/nationality/update/:nationalityid" element={<EditNationality />}/>
+        <Route path="/civilstatus/update/:civilstatusid" element={<EditCivilStatus />}/>
+        <Route path="/task/update/:taskid" element={<EditTask />}/>
+      </Routes>
     </BrowserRouter>
   )
 }

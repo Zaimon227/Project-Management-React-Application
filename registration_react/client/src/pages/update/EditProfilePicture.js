@@ -16,12 +16,17 @@ const EditProfilePicture = () => {
     const [profilePicture, setProfilePicture] = useState("defaultProfile.png")
 
     const loadProfilePicture = async () => {
-        const response = await axios.get(`http://localhost:5000/user/profilepicture/${userid}`)
+        const response = await axios.get(`http://localhost:3001/user/profilepicture/${userid}`)
         setProfilePicture(response.data)
     }
 
     useEffect(() => {
         loadProfilePicture()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userid])
 
 
@@ -51,7 +56,7 @@ const EditProfilePicture = () => {
         formData.append("image", file)
         formData.append("fileName", fileName)
         try {
-            await axios.put(`http://localhost:5000/user/upload/${userid}`, formData)
+            await axios.put(`http://localhost:3001/user/upload/${userid}`, formData)
         } catch (err) {
             console.log(err)
         }
@@ -71,11 +76,13 @@ const EditProfilePicture = () => {
                         <img 
                             src={previewFile} 
                             className="profile--loaded"
+                            alt="preview upload"
                         /> 
                     : 
                         <img 
                             src={require(`../../uploads/${profilePicture}`)} 
                             className="profile--loaded"
+                            alt="profile"
                         />
                     }
                 </div>

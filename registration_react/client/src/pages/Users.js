@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import axios from 'axios'
@@ -21,14 +21,26 @@ const Users = () => {
     const [data, setData] = useState([])
 
     const loadData = async () => {
-        const response = await axios.get(`http://localhost:5000/user/${page}`)
+        const response = await axios.get(`http://localhost:3001/user/${page}`)
         setData(response.data)
     }
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadData()
         nextPreviousPageChecker()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleLogout = async () => {
+        setTimeout(() => navigate(`/login`))
+        localStorage.clear()
+    }
 
     // Pagination
     const [previousButtonStatus, setPreviousButtonStatus] = useState(true)
@@ -44,14 +56,14 @@ const Users = () => {
 
         let nextPage = page + 1
         if (!search) {
-            const check = await axios.get(`http://localhost:5000/user/${nextPage}`)
+            const check = await axios.get(`http://localhost:3001/user/${nextPage}`)
             if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
             }
         } else {
-            const check = await axios.get(`http://localhost:5000/user/${nextPage}/${search}`)
+            const check = await axios.get(`http://localhost:3001/user/${nextPage}/${search}`)
             if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
@@ -85,7 +97,7 @@ const Users = () => {
     const { search } = searchForm
 
     const searchData = async () => {
-        const response = await axios.get(`http://localhost:5000/user/${page}/${search}`)
+        const response = await axios.get(`http://localhost:3001/user/${page}/${search}`)
         setData(response.data)
         nextPreviousPageChecker()
     }
@@ -109,7 +121,7 @@ const Users = () => {
     // Delete Religion
     const deleteUser = (userid) => {
         if(window.confirm("Are you sure that you want to delete that user?")){
-            axios.delete(`http://localhost:5000/user/delete/${userid}`)
+            axios.delete(`http://localhost:3001/user/delete/${userid}`)
             toast.success("User Deleted Successfully")
             setTimeout(() => loadData(), 500);
         }
@@ -120,16 +132,28 @@ const Users = () => {
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
-                        <img 
-                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
-                            className="menubar--profile-picture"
-                            alt="phonebook"
-                        />
-                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        {(!localStorage.getItem("lsProfilePicture")) ? 
+                            <img 
+                                src={require(`../uploads/defaultProfile.png`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        :
+                            <img 
+                                src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        }
+                        {(!localStorage.getItem("lsUsername")) ?
+                            <p className="menubar--profile-username">Username</p>
+                        :
+                            <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        }
                     </div>
                 </div>
                 <ul>
-                    <Link to="/home">
+                    <Link to="/">
                     <li>
                         <img 
                             src={require('../images/home.png')}
@@ -184,15 +208,13 @@ const Users = () => {
                             </ul>
                         </div>
                     </li>
-                    <Link to="/">
-                        <button className="menubar--logout">
-                            <img 
-                                src={require('../images/signout.png')}
-                                className="menubar--logout-icon"
-                                alt="sign out"
-                            />
-                        </button>
-                    </Link>
+                    <button className="menubar--logout" onClick={handleLogout}>
+                        <img 
+                            src={require('../images/signout.png')}
+                            className="menubar--logout-icon"
+                            alt="sign out"
+                        />
+                    </button>
                 </ul>
             </div>
 

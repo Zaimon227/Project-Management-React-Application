@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -16,13 +16,19 @@ const AddReligion = () => {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+    }, [])
+
     const handleSubmit = (event) => {
         event.preventDefault()
         if(!religionname || !description) {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .post('http://localhost:5000/religion/add', {
+                .post('http://localhost:3001/religion/add', {
                     religionname,
                     description
                 })

@@ -19,8 +19,12 @@ const EditNationality = () => {
     const { nationalityid } = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/nationality/get/${nationalityid}`)
+        axios.get(`http://localhost:3001/nationality/get/${nationalityid}`)
         .then((resp) => setEditNationalityForm({...resp.data}))
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
     }, [nationalityid])
 
     const handleSubmit = (event) => {
@@ -29,7 +33,7 @@ const EditNationality = () => {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .put(`http://localhost:5000/nationality/update/${nationalityid}`, {
+                .put(`http://localhost:3001/nationality/update/${nationalityid}`, {
                     nationalityname,
                     description
                 })

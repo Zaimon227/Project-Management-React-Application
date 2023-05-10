@@ -21,8 +21,12 @@ const EditContact = () => {
     const { id } = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/contact/get/${id}`)
+        axios.get(`http://localhost:3001/contact/get/${id}`)
         .then((resp) => setEditContactForm({...resp.data}))
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
     }, [id])
 
     const handleSubmit = (event) => {
@@ -31,7 +35,7 @@ const EditContact = () => {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .put(`http://localhost:5000/contact/update/${id}`, {
+                .put(`http://localhost:3001/contact/update/${id}`, {
                     name,
                     address,
                     email,

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
@@ -18,21 +17,30 @@ var page = 1
 
 const Nationality = () => {
 
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
-
     // Nationality
     const [data, setData] = useState([])
 
     const loadData = async () => {
-        const response = await axios.get(`http://localhost:5000/nationality/${page}`)
+        const response = await axios.get(`http://localhost:3001/nationality/${page}`)
         setData(response.data)
     }
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadData();
         nextPreviousPageChecker()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleLogout = async () => {
+        setTimeout(() => navigate(`/login`))
+        localStorage.clear()
+    }
 
     // Pagination
     const [previousButtonStatus, setPreviousButtonStatus] = useState(true)
@@ -48,15 +56,15 @@ const Nationality = () => {
 
         let nextPage = page + 1
         if (!search) {
-            const check = await axios.get(`http://localhost:5000/nationality/${nextPage}`)
-            if (check.data.length == 0) {
+            const check = await axios.get(`http://localhost:3001/nationality/${nextPage}`)
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
             }
         } else {
-            const check = await axios.get(`http://localhost:5000/nationality/${nextPage}/${search}`)
-            if (check.data.length == 0) {
+            const check = await axios.get(`http://localhost:3001/nationality/${nextPage}/${search}`)
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
@@ -89,7 +97,7 @@ const Nationality = () => {
     const { search } = searchForm
 
     const searchData = async () => {
-        const response = await axios.get(`http://localhost:5000/nationality/${page}/${search}`)
+        const response = await axios.get(`http://localhost:3001/nationality/${page}/${search}`)
         setData(response.data)
         nextPreviousPageChecker()
     }
@@ -113,7 +121,7 @@ const Nationality = () => {
     // Delete Nationality
     const deleteNationality = (nationalityid) => {
         if(window.confirm("Are you sure that you want to delete that nationality?")){
-            axios.delete(`http://localhost:5000/nationality/delete/${nationalityid}`)
+            axios.delete(`http://localhost:3001/nationality/delete/${nationalityid}`)
             toast.success("Nationality Deleted Successfully")
             setTimeout(() => loadData(), 500);
         }
@@ -124,16 +132,28 @@ const Nationality = () => {
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
-                        <img 
-                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
-                            className="menubar--profile-picture"
-                            alt="phonebook"
-                        />
-                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        {(!localStorage.getItem("lsProfilePicture")) ? 
+                            <img 
+                                src={require(`../uploads/defaultProfile.png`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        :
+                            <img 
+                                src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        }
+                        {(!localStorage.getItem("lsUsername")) ?
+                            <p className="menubar--profile-username">Username</p>
+                        :
+                            <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        }
                     </div>
                 </div>
                 <ul>
-                    <Link to="/home">
+                    <Link to="/">
                     <li>
                         <img 
                             src={require('../images/home.png')}
@@ -188,15 +208,13 @@ const Nationality = () => {
                             </ul>
                         </div>
                     </li>
-                    <Link to="/">
-                        <button className="menubar--logout">
-                            <img 
-                                src={require('../images/signout.png')}
-                                className="menubar--logout-icon"
-                                alt="sign out"
-                            />
-                        </button>
-                    </Link>
+                    <button className="menubar--logout" onClick={handleLogout}>
+                        <img 
+                            src={require('../images/signout.png')}
+                            className="menubar--logout-icon"
+                            alt="sign out"
+                        />
+                    </button>
                 </ul>
             </div>
 

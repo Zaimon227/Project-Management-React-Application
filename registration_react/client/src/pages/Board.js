@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import axios from 'axios'
@@ -9,9 +7,6 @@ import '../styles/Navbar.css'
 import '../styles/Board.css'
 
 const Board = () => {
-
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
 
     let sourceList = []
     let destinationList = []
@@ -23,29 +18,31 @@ const Board = () => {
     const [invalidData, setInvalidData] = useState([])
 
     const loadTodoData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/todo`)
+        const response = await axios.get(`http://localhost:3001/task/todo`)
         setTodoData(response.data)
     }
 
     const loadInprogressData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/inprogress`)
+        const response = await axios.get(`http://localhost:3001/task/inprogress`)
         setInprogressData(response.data)
     }
 
     const loadFortestingData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/fortesting`)
+        const response = await axios.get(`http://localhost:3001/task/fortesting`)
         setFortestingData(response.data)
     }
 
     const loadDoneData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/done`)
+        const response = await axios.get(`http://localhost:3001/task/done`)
         setDoneData(response.data)
     }
 
     const loadInavlidData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/invalid`)
+        const response = await axios.get(`http://localhost:3001/task/invalid`)
         setInvalidData(response.data)
     }
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadTodoData()
@@ -53,7 +50,17 @@ const Board = () => {
         loadFortestingData()
         loadDoneData()
         loadInavlidData()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleLogout = async () => {
+        setTimeout(() => navigate(`/login`))
+        localStorage.clear()
+    }
 
     const handleOnDragEnd = async (event) => {
         console.log(event)
@@ -65,7 +72,7 @@ const Board = () => {
         }
 
         if (event.source.droppableId !== event.destination.droppableId) {
-            await axios.put(`http://localhost:5000/task/movetable/${event.source.droppableId}/${event.destination.droppableId}/${event.draggableId}/${event.destination.index}/${event.source.index}`)
+            await axios.put(`http://localhost:3001/task/movetable/${event.source.droppableId}/${event.destination.droppableId}/${event.draggableId}/${event.destination.index}/${event.source.index}`)
 
             switch (event.source.droppableId) {
                 case "todo":
@@ -157,10 +164,10 @@ const Board = () => {
             const conditionNum = (event.destination.index - event.source.index)
 
             if (conditionNum > 0) {
-                await axios.put(`http://localhost:5000/task/movedown/${event.draggableId}/${event.destination.index}/${event.source.index}`)
+                await axios.put(`http://localhost:3001/task/movedown/${event.draggableId}/${event.destination.index}/${event.source.index}`)
             } 
             else if (conditionNum < 0) {
-                await axios.put(`http://localhost:5000/task/moveup/${event.draggableId}/${event.destination.index}/${event.source.index}`)
+                await axios.put(`http://localhost:3001/task/moveup/${event.draggableId}/${event.destination.index}/${event.source.index}`)
             }
 
             const items = Array.from(todoData)
@@ -177,16 +184,28 @@ const Board = () => {
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
-                        <img 
-                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
-                            className="menubar--profile-picture"
-                            alt="phonebook"
-                        />
-                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        {(!localStorage.getItem("lsProfilePicture")) ? 
+                            <img 
+                                src={require(`../uploads/defaultProfile.png`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        :
+                            <img 
+                                src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        }
+                        {(!localStorage.getItem("lsUsername")) ?
+                            <p className="menubar--profile-username">Username</p>
+                        :
+                            <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        }
                     </div>
                 </div>
                 <ul>
-                    <Link to="/home">
+                    <Link to="/">
                     <li>
                         <img 
                             src={require('../images/home.png')}
@@ -241,15 +260,13 @@ const Board = () => {
                             </ul>
                         </div>
                     </li>
-                    <Link to="/">
-                        <button className="menubar--logout">
-                            <img 
-                                src={require('../images/signout.png')}
-                                className="menubar--logout-icon"
-                                alt="sign out"
-                            />
-                        </button>
-                    </Link>
+                    <button className="menubar--logout" onClick={handleLogout}>
+                        <img 
+                            src={require('../images/signout.png')}
+                            className="menubar--logout-icon"
+                            alt="sign out"
+                        />
+                    </button>
                 </ul>
             </div>
 

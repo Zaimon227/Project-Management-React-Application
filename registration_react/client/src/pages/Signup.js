@@ -28,17 +28,17 @@ const Signup = () => {
     const [civilstatusData, setCivilStatusData] = useState([])
 
     const loadReligionData = async () => {
-        const response = await axios.get(`http://localhost:5000/religion`)
+        const response = await axios.get(`http://localhost:3001/religion`)
         setReligionData(response.data)
     }
 
     const loadNationalityData = async () => {
-        const response = await axios.get(`http://localhost:5000/nationality`)
+        const response = await axios.get(`http://localhost:3001/nationality`)
         setNationalityData(response.data)
     }
 
     const loadCivilStatusData = async () => {
-        const response = await axios.get(`http://localhost:5000/civilstatus`)
+        const response = await axios.get(`http://localhost:3001/civilstatus`)
         setCivilStatusData(response.data)
     }
 
@@ -80,7 +80,7 @@ const Signup = () => {
                 toast.error("Missing some input field/s!")
             } else {
                 axios
-                    .post('http://localhost:5000/user/signup', {
+                    .post('http://localhost:3001/user/signup', {
                         firstname,
                         middlename,    
                         lastname,
@@ -108,7 +108,7 @@ const Signup = () => {
                     })
                     .catch((err) => console.log(err.response.data))
                     toast.success("Signed Up Successfully") 
-                setTimeout(() => navigate('/'), 500)
+                setTimeout(() => navigate('/login'), 500)
             }
         }  
     }
@@ -203,7 +203,7 @@ const Signup = () => {
                             onChange={handleInputChange}
                         />
                     <input className="form--signup-submit" type="submit" value="SIGN UP"/>
-                    <Link to='/'>
+                    <Link to='/login'>
                     <input className="form--signup-back" type="button" value="BACK"/>
                     </Link>
                     </div>

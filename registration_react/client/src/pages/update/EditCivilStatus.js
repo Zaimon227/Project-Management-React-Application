@@ -19,8 +19,12 @@ const EditCivilStatus = () => {
     const { civilstatusid } = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/civilstatus/get/${civilstatusid}`)
+        axios.get(`http://localhost:3001/civilstatus/get/${civilstatusid}`)
         .then((resp) => setEditCivilStatusForm({...resp.data}))
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
     }, [civilstatusid])
 
     const handleSubmit = (event) => {
@@ -29,7 +33,7 @@ const EditCivilStatus = () => {
             toast.error("Please provide value into each input field")
         } else {
             axios
-                .put(`http://localhost:5000/civilstatus/update/${civilstatusid}`, {
+                .put(`http://localhost:3001/civilstatus/update/${civilstatusid}`, {
                     civilstatusname,
                     description
                 })

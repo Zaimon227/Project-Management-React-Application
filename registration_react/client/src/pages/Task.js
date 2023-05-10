@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -36,7 +36,7 @@ const Task = () => {
     const [attachmentData, setAttachmentData] = useState([])
 
     const loadTaskData = async () => {
-        await axios.get(`http://localhost:5000/task/get/${taskid}`)
+        await axios.get(`http://localhost:3001/task/get/${taskid}`)
         .then((resp) => setTaskDetailsForm({...resp.data}))
     }
 
@@ -44,7 +44,7 @@ const Task = () => {
     var parsedCommentsData
 
     const loadCommentData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/${taskid}/comments`)
+        const response = await axios.get(`http://localhost:3001/task/${taskid}/comments`)
 
         commentsData = (response.data)
         parsedCommentsData = JSON.parse(commentsData[0].comments)
@@ -56,7 +56,7 @@ const Task = () => {
     var parsedAttachmentsData
 
     const loadAttachmentData = async () => {
-        const response = await axios.get(`http://localhost:5000/task/${taskid}/attachments`)
+        const response = await axios.get(`http://localhost:3001/task/${taskid}/attachments`)
 
         attachmentsData = (response.data)
         parsedAttachmentsData = JSON.parse(attachmentsData[0].attachments)
@@ -65,10 +65,17 @@ const Task = () => {
     
     const { taskid } = useParams()
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         loadTaskData()
         loadCommentData()
         loadAttachmentData()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [taskid])
 
 
@@ -104,7 +111,7 @@ const Task = () => {
             toast.error("Empty comment!")
         } else {
             axios
-                .put(`http://localhost:5000/task/${taskid}/comment`, {
+                .put(`http://localhost:3001/task/${taskid}/comment`, {
                     conditionalAddingCommentData
                 })
                 .then(() => {
@@ -124,7 +131,7 @@ const Task = () => {
 
     const downloadFileAtURL = (filename) => {
         const aTag = document.createElement('a')
-        aTag.href = `http://localhost:3000/attachments/${filename}`
+        aTag.href = `http://localhost:3001/attachments/${filename}`
         aTag.setAttribute('download', `${filename}`)
         document.body.appendChild(aTag)
         aTag.click()

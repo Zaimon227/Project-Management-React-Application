@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Username, ProfilePicture } from '../Context'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -17,21 +16,30 @@ var page = 1
 
 const Phonebook = () => {
 
-    const { username, setUsername } = useContext(Username)
-    const { profilePicture, setProfilePicture } = useContext(ProfilePicture)
-
     // Contacts
     const [data, setData] = useState([])
 
     const loadData = async () => {
-        const response = await axios.get(`http://localhost:5000/contact/${page}`)
+        const response = await axios.get(`http://localhost:3001/contact/${page}`)
         setData(response.data)
     }
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadData()
         nextPreviousPageChecker()
+
+        if (!(localStorage.getItem("lsIsLoggedIn"))) {
+            setTimeout(() => navigate(`/login`))
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleLogout = async () => {
+        setTimeout(() => navigate(`/login`))
+        localStorage.clear()
+    }
 
     // Pagination
     const [previousButtonStatus, setPreviousButtonStatus] = useState(true)
@@ -47,15 +55,15 @@ const Phonebook = () => {
 
         let nextPage = page + 1
         if (!search) {
-            const check = await axios.get(`http://localhost:5000/contact/${nextPage}`)
-            if (check.data.length == 0) {
+            const check = await axios.get(`http://localhost:3001/contact/${nextPage}`)
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
             }
         } else {
-            const check = await axios.get(`http://localhost:5000/contact/${nextPage}/${search}`)
-            if (check.data.length == 0) {
+            const check = await axios.get(`http://localhost:3001/contact/${nextPage}/${search}`)
+            if (check.data.length === 0) {
                 setNextButtonStatus(true)
             } else {
                 setNextButtonStatus(false)
@@ -88,7 +96,7 @@ const Phonebook = () => {
     const { search } = searchForm
 
     const searchData = async () => {
-        const response = await axios.get(`http://localhost:5000/contact/${page}/${search}`)
+        const response = await axios.get(`http://localhost:3001/contact/${page}/${search}`)
         setData(response.data)
         nextPreviousPageChecker()
     }
@@ -112,7 +120,7 @@ const Phonebook = () => {
     // Delete Contact
     const deleteContact = (id) => {
         if(window.confirm("Are you sure that you want to delete that contact?")){
-            axios.delete(`http://localhost:5000/contact/delete/${id}`)
+            axios.delete(`http://localhost:3001/contact/delete/${id}`)
             toast.success("Contact Deleted Successfully")
             setTimeout(() => loadData(), 500);
         }
@@ -123,16 +131,28 @@ const Phonebook = () => {
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
-                        <img 
-                            src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
-                            className="menubar--profile-picture"
-                            alt="phonebook"
-                        />
-                        <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        {(!localStorage.getItem("lsProfilePicture")) ? 
+                            <img 
+                                src={require(`../uploads/defaultProfile.png`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        :
+                            <img 
+                                src={require(`../uploads/${localStorage.getItem("lsProfilePicture")}`)}
+                                className="menubar--profile-picture"
+                                alt="phonebook"
+                            />
+                        }
+                        {(!localStorage.getItem("lsUsername")) ?
+                            <p className="menubar--profile-username">Username</p>
+                        :
+                            <p className="menubar--profile-username">{localStorage.getItem("lsUsername")}</p>
+                        }
                     </div>
                 </div>
                 <ul>
-                    <Link to="/home">
+                    <Link to="/">
                     <li>
                         <img 
                             src={require('../images/home.png')}
@@ -187,15 +207,13 @@ const Phonebook = () => {
                             </ul>
                         </div>
                     </li>
-                    <Link to="/">
-                        <button className="menubar--logout">
-                            <img 
-                                src={require('../images/signout.png')}
-                                className="menubar--logout-icon"
-                                alt="sign out"
-                            />
-                        </button>
-                    </Link>
+                    <button className="menubar--logout" onClick={handleLogout}>
+                        <img 
+                            src={require('../images/signout.png')}
+                            className="menubar--logout-icon"
+                            alt="sign out"
+                        />
+                    </button>
                 </ul>
             </div>
 
