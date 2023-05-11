@@ -1,3 +1,18 @@
+.form--search {
+    animation: fade-up-search 1s;
+}
+
+@keyframes fade-up-search{
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+}
+
 .form--addcontact-container {
     position: fixed;
     top: -10%;
@@ -14,6 +29,7 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
 }
 
 .form--addcontact-input {
@@ -38,6 +54,7 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
 }
 
 .form--addmaintenace-input {
@@ -128,6 +145,7 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
 }
 
 .form--upload-profile-picture-input {
@@ -222,6 +240,26 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
+}
+
+.form--edittask-container {
+    position: fixed;
+    top: -34%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: #ffffff;
+    width: 450px;
+    padding: 0px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+    rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
 }
 
 .form--addtask-input {
@@ -323,6 +361,19 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 70%) scale(1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(-50%, 50%) scale(1);
+    }
 }
 
 .form--task-leftside-contents {
@@ -375,6 +426,7 @@
     padding: 10px 20px;
     border-radius: 11px;
     min-height: 70px;
+    margin-top: 20px;
     box-shadow: 
     rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, 
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -452,6 +504,12 @@
     font-size: 14px;
 }
 
+.form--task-details-status {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
 .form--task-details-assignee {
     font-size: 14px;
     font-weight: 600;
@@ -480,7 +538,7 @@
     font-family: 'Poppins', sans-serif;
     width: 100px;
     margin-right: 25px;
-    margin-top: 240px;
+    margin-top: 200px;
     background-color: #949494;
     padding: 10px;
     color: #ffffff;
@@ -537,6 +595,7 @@
     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fade-up 0.8s;
 }
 
 .attachment-component {

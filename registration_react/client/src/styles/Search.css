@@ -39,6 +39,18 @@
     background: none;
     border: none;
     cursor: pointer;
+    animation: fade-up-addbutton 1s;
+}
+
+@keyframes fade-up-addbutton {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
 }
 
 .button--add-icon {

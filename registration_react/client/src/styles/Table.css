@@ -7,6 +7,33 @@
     margin: 30px 0px 20px 100px;
     float: left;
     color: #32a852;
+    animation: fade-up-tabletitle 1s;
+}
+
+@keyframes fade-up-tabletitle {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+}
+
+.main--container {
+    animation: fade-up-table 1s;
+}
+
+@keyframes fade-up-table {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
 }
 
 .table--container {

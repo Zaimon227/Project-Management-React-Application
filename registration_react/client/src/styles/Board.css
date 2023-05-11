@@ -23,11 +23,23 @@ body {
     box-shadow: 
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, 
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    animation: fade-up-addtask 0.8s;
     transition-duration: 0.4s;
 }
 
 .button--add-task:hover {
     background-color: #196b2f;
+}
+
+@keyframes fade-up-addtask {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
 }
 
 .button--add-icon-task {
@@ -39,12 +51,24 @@ body {
     display: flex;
     margin: auto;
     width: 100%;
+    animation: fade-up-board-container 1s
 }
 
 .board--main-container::after {
     content: "";
     display: table;
     clear: both;
+}
+
+@keyframes fade-up-board-container {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
 }
 
 .board--ticket-status {
@@ -82,12 +106,21 @@ body {
 }
 
 .board--ticket-status-label {
-    text-align: center;
+    float: left;
     font-size: 14px;
     font-weight: 600;
     color: #8d8d8d;
     border-radius: 8px 8px 0 0; 
-    padding: 10px; 
+    margin-left: 20px;
+}
+
+.board-ticket-status-count {
+    margin-top: 10px;
+    margin-right: 20px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+    color: #32a852;
 }
 
 .board--ticket-container {
@@ -103,6 +136,16 @@ body {
     transition-duration: 0.4s;
 }
 
+.board--ticket-container:hover {
+    color: #ffffff;
+    background-color: #32a852;
+}
+
+.board--ticket-container:active {
+    color: #ffffff;
+    background-color: #32a852;
+}
+
 .board--ticket-container-assignee {
     font-size: 12px;
     text-align: end;
@@ -111,7 +154,6 @@ body {
 .board--ticket-container-taskname {
     font-size: 14px;
     font-weight: 600;
-    color: #32a852;
 }
 
 .board--ticket-container-taskid {
@@ -132,9 +174,13 @@ body {
 .board--details-button {
     float: right;
     border: none;
-    background: none;
-    padding: 3px;
+    background: #ffffff;
     margin-left: 10px;
+    border-radius: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 2px;
 }
 
 .board--details-button:hover {

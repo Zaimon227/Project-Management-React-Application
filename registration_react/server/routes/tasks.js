@@ -89,6 +89,19 @@ router.get('/get/:taskid', async (req, res) => {
     res.status(200).json(task)
 })
 
+router.get('/taskstatus/:taskid', async (req, res) => {
+    const {taskid} = req.params
+
+    const taskstatus = await Task.query()
+    .select('taskstatus')
+    .where('taskid', taskid)
+
+    console.log(taskstatus[0] instanceof Task) // --> true
+    console.log(taskstatus[0].taskstatus)
+
+    res.status(200).send(taskstatus[0].taskstatus)
+})
+
 router.get('/todo', async (req, res) => {
     const todo = await Task.query()
     .select('assignee', 'name', 'taskid', 'deadline')
@@ -284,9 +297,9 @@ router.put('/movetable/:droppableIdSource/:droppableIdDestination/:draggableId/:
 
 router.put('/update/:taskid', async (req, res) => {
     const {taskid} = req.params
-    const {name, description, assignee, deadline} = req.body
+    const {name, description, taskstatus, oldTaskStatus, assignee, deadline, ordernum} = req.body
 
-    if (!name && !description && !assignee && !deadline) {
+    if (!name && !description && !taskstatus && !oldTaskStatus && !assignee && !deadline) {
         return res
         .status(404)
         .json({success: false, msg: 'Incomplete Inputs' })
@@ -299,7 +312,29 @@ router.put('/update/:taskid', async (req, res) => {
             description: description,
             assignee: assignee,
             deadline: deadline
-        });
+        })
+
+    if (oldTaskStatus !== taskstatus) {
+        const knex = Task.knex()
+
+        await knex.raw(`
+            UPDATE tbTasks
+            SET ordernum = ordernum + 1
+            WHERE taskstatus = '${taskstatus}'
+        `)
+
+        await knex.raw(`
+            UPDATE tbTasks
+            SET taskstatus = '${taskstatus}', ordernum = 1
+            WHERE taskid = ${taskid}
+        `)
+
+        await knex.raw(`
+            UPDATE tbTasks
+            SET ordernum = ordernum - 1
+            WHERE (taskstatus = '${oldTaskStatus}') AND (ordernum > ${ordernum})
+        `)
+    }
 
     if (!updateTask) {
         return res

@@ -287,7 +287,14 @@ const Board = () => {
                 <div className="board--main-container"> 
                     
                     <div className="board--ticket-status">
-                        <p className="board--ticket-status-label">TO DO</p>
+                        <div>
+                            <p className="board--ticket-status-label">TO DO</p>
+                            {todoData.length > 1 || todoData.length == 0 ? 
+                                <p className="board-ticket-status-count">{todoData.length} TASKS</p> 
+                            : 
+                                <p className="board-ticket-status-count">{todoData.length} TASK</p>
+                            }
+                        </div>
                         <Droppable droppableId="todo">
                         {(provided) => (
                             <ul className="statusList" {...provided.droppableProps} ref={provided.innerRef}>
@@ -324,7 +331,14 @@ const Board = () => {
                     
                     
                     <div className="board--ticket-status">
-                        <p className="board--ticket-status-label">IN PROGRESS</p>
+                        <div>
+                            <p className="board--ticket-status-label">IN PROGRESS</p>
+                            {inprogressData.length > 1 || inprogressData.length == 0 ? 
+                                <p className="board-ticket-status-count">{inprogressData.length} TASKS</p> 
+                            : 
+                                <p className="board-ticket-status-count">{inprogressData.length} TASK</p>
+                            }
+                        </div>
                         <Droppable droppableId="inprogress">
                         {(provided) => (
                             <ul className="statusList" {...provided.droppableProps} ref={provided.innerRef}>
@@ -360,7 +374,14 @@ const Board = () => {
                     </div>
 
                     <div className="board--ticket-status">
-                        <p className="board--ticket-status-label">FOR TESTING</p>
+                        <div>
+                            <p className="board--ticket-status-label">FOR TESTING</p>
+                            {fortestingData.length > 1 || fortestingData.length == 0 ? 
+                                <p className="board-ticket-status-count">{fortestingData.length} TASKS</p> 
+                            : 
+                                <p className="board-ticket-status-count">{fortestingData.length} TASK</p>
+                            }
+                        </div>
                         <Droppable droppableId="fortesting">
                         {(provided) => (
                             <ul className="statusList" {...provided.droppableProps} ref={provided.innerRef}>
@@ -396,7 +417,14 @@ const Board = () => {
                     </div>
 
                     <div className="board--ticket-status">
-                        <p className="board--ticket-status-label">DONE</p>
+                        <div>
+                            <p className="board--ticket-status-label">DONE</p>
+                            {doneData.length > 1 || doneData.length == 0 ? 
+                                <p className="board-ticket-status-count">{doneData.length} TASKS</p> 
+                            : 
+                                <p className="board-ticket-status-count">{doneData.length} TASK</p>
+                            }
+                        </div>
                         <Droppable droppableId="done">
                         {(provided) => (
                             <ul className="statusList" {...provided.droppableProps} ref={provided.innerRef}>
@@ -432,7 +460,14 @@ const Board = () => {
                     </div>
 
                     <div className="board--ticket-status">
-                        <p className="board--ticket-status-label">INVALID</p>
+                        <div>
+                            <p className="board--ticket-status-label">INVALID</p>
+                            {invalidData.length > 1 || invalidData.length == 0 ? 
+                                <p className="board-ticket-status-count">{invalidData.length} TASKS</p> 
+                            : 
+                                <p className="board-ticket-status-count">{invalidData.length} TASK</p>
+                            }
+                        </div>
                         <Droppable droppableId="invalid">
                         {(provided) => (
                             <ul className="statusList" {...provided.droppableProps} ref={provided.innerRef}>
