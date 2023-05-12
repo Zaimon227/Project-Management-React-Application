@@ -535,16 +535,17 @@
 }
 
 .form--task-edit {
+    text-align: center;
     font-family: 'Poppins', sans-serif;
-    width: 100px;
-    margin-right: 25px;
+    margin-right: 15px;
     margin-top: 200px;
     background-color: #949494;
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
     color: #ffffff;
     border-style: hidden;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 2px;
     box-shadow: 
@@ -557,16 +558,41 @@
     background-color: #196b2f;
 }
 
-.form--task-back {
+.form--task-delete {
+    text-align: center;
     font-family: 'Poppins', sans-serif;
-    width: 100px;
-    margin-top: 140px;
+    margin-top: 200px;
     background-color: #949494;
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
     color: #ffffff;
     border-style: hidden;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    box-shadow: 
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.form--task-delete:hover {
+    background-color: #994040;
+}
+
+.form--task-back {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin-left: 15px;
+    margin-top: 200px;
+    background-color: #949494;
+    padding: 10px 20px 10px 20px;
+    color: #ffffff;
+    border-style: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 2px;
     box-shadow: 
@@ -577,6 +603,10 @@
 
 .form--task-back:hover {
     background-color: #994040;
+}
+
+.form--task-buttons {
+    display: flex;
 }
 
 .form--addattachments-container {

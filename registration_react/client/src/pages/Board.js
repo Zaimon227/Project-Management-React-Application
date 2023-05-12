@@ -6,6 +6,9 @@ import axios from 'axios'
 import '../styles/Navbar.css'
 import '../styles/Board.css'
 
+import io from 'socket.io-client'
+const socket = io.connect("http://localhost:3001")
+
 const Board = () => {
 
     let sourceList = []
@@ -54,8 +57,43 @@ const Board = () => {
         if (!(localStorage.getItem("lsIsLoggedIn"))) {
             setTimeout(() => navigate(`/login`))
         };
+
+        // SOCKETS FOR REORDER SAME STATUS DATA
+        socket.on("receive_changeSameStatusTodo", (data) => {
+            setTodoData(data.todoItems)
+        })
+        socket.on("receive_changeSameStatusInprogress", (data) => {
+            setInprogressData(data.inprogressItems)
+        })
+        socket.on("receive_changeSameStatusFortesting", (data) => {
+            setFortestingData(data.fortestingItems)
+        })
+        socket.on("receive_changeSameStatusDone", (data) => {
+            setDoneData(data.doneItems)
+        })
+        socket.on("receive_changeSameStatusInvalid", (data) => {
+            setInvalidData(data.invalidItems)
+        })
+
+        // SOCKETS FOR CHANGE DIFFERENT STATUS DATA
+        socket.on("receive_changeDiffStatusTodo", (data) => {
+            setTodoData(data.Column)
+        })
+        socket.on("receive_changeDiffStatusInprogress", (data) => {
+            setInprogressData(data.Column)
+        })
+        socket.on("receive_changeDiffStatusFortesting", (data) => {
+            setFortestingData(data.Column)
+        })
+        socket.on("receive_changeDiffStatusDone", (data) => {
+            setDoneData(data.Column)
+        })
+        socket.on("receive_changeDiffStatusInvalid", (data) => {
+            setInvalidData(data.Column)
+        })
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [socket])
 
     const handleLogout = async () => {
         setTimeout(() => navigate(`/login`))
@@ -71,6 +109,7 @@ const Board = () => {
             return
         }
 
+        // IF MOVING TO DIFFERENT STATUS LOGIC
         if (event.source.droppableId !== event.destination.droppableId) {
             await axios.put(`http://localhost:3001/task/movetable/${event.source.droppableId}/${event.destination.droppableId}/${event.draggableId}/${event.destination.index}/${event.source.index}`)
 
@@ -118,48 +157,57 @@ const Board = () => {
             const [reorderedItem] = sourceColumn.splice(event.source.index, 1) // ("get index of item being dragged", "remove item from list")
             switch (event.source.droppableId) {
                 case "todo":
+                    socket.emit("send_changeDiffStatusTodo", { Column: sourceColumn })
                     setTodoData(sourceColumn)
                     break
                 case "inprogress":
+                    socket.emit("send_changeDiffStatusInprogress", { Column: sourceColumn })
                     setInprogressData(sourceColumn)
                     break
                 case "fortesting":
+                    socket.emit("send_changeDiffStatusFortesting", { Column: sourceColumn })
                     setFortestingData(sourceColumn)
                     break
                 case "done":
+                    socket.emit("send_changeDiffStatusDone", { Column: sourceColumn })
                     setDoneData(sourceColumn)
                     break
                 case "invalid":
+                    socket.emit("send_changeDiffStatusInvalid", { Column: sourceColumn })
                     setInvalidData(sourceColumn)
                     break
                 default:
                     return
             }
-            console.log("reorderedItem:")
-            console.log(reorderedItem)
             
             const destinationColumn = Array.from(destinationList)
             destinationColumn.splice(event.destination.index, 0, reorderedItem) // ("get index of where item is being placed", "remove 0", "add item being dragged")
             switch (event.destination.droppableId) {
                 case "todo":
+                    socket.emit("send_changeDiffStatusTodo", { Column: destinationColumn })
                     setTodoData(destinationColumn)
                     break
                 case "inprogress":
+                    socket.emit("send_changeDiffStatusInprogress", { Column: destinationColumn })
                     setInprogressData(destinationColumn)
                     break
                 case "fortesting":
+                    socket.emit("send_changeDiffStatusFortesting", { Column: destinationColumn })
                     setFortestingData(destinationColumn)
                     break
                 case "done":
+                    socket.emit("send_changeDiffStatusDone", { Column: destinationColumn })
                     setDoneData(destinationColumn)
                     break
                 case "invalid":
+                    socket.emit("send_changeDiffStatusInvalid", { Column: destinationColumn })
                     setInvalidData(destinationColumn)
                     break
                 default:
                     return
             }
         } 
+        // THIS LOGIC WILL RUN IF REORDERING TO THE SAME STATUS
         else {
             const conditionNum = (event.destination.index - event.source.index)
 
@@ -170,12 +218,49 @@ const Board = () => {
                 await axios.put(`http://localhost:3001/task/moveup/${event.draggableId}/${event.destination.index}/${event.source.index}`)
             }
 
-            const items = Array.from(todoData)
-            const [reorderedItem] = items.splice(event.source.index, 1)
-            items.splice(event.destination.index, 0, reorderedItem)
-            setTodoData(items)
-        }
+            switch (event.destination.droppableId) {
+                case "todo":
+                    // send todoData, event.source.index, event.destination.index
+                    // receive processed data to setTodoData
 
+                    const todoItems = Array.from(todoData)
+                    const [reorderedTodoItem] = todoItems.splice(event.source.index, 1)
+                    todoItems.splice(event.destination.index, 0, reorderedTodoItem)
+                    socket.emit("send_changeSameStatusTodo", { todoItems: todoItems })
+                    setTodoData(todoItems)
+                    break
+                case "inprogress":
+                    const inprogressItems = Array.from(inprogressData)
+                    const [reorderedInprogressItem] = inprogressItems.splice(event.source.index, 1)
+                    inprogressItems.splice(event.destination.index, 0, reorderedInprogressItem)
+                    socket.emit("send_changeSameStatusInprogress", { inprogressItems: inprogressItems })
+                    setInprogressData(inprogressItems)
+                    break
+                case "fortesting":
+                    const fortestingItems = Array.from(fortestingData)
+                    const [reorderedFortestingItem] = fortestingItems.splice(event.source.index, 1)
+                    fortestingItems.splice(event.destination.index, 0, reorderedFortestingItem)
+                    socket.emit("send_changeSameStatusFortesting", { fortestingItems: fortestingItems })
+                    setFortestingData(fortestingItems)
+                    break
+                case "done":
+                    const doneItems = Array.from(doneData)
+                    const [reorderedDoneItem] = doneItems.splice(event.source.index, 1)
+                    doneItems.splice(event.destination.index, 0, reorderedDoneItem)
+                    socket.emit("send_changeSameStatusDone", { doneItems: doneItems })
+                    setDoneData(doneItems)
+                    break
+                case "invalid":
+                    const invalidItems = Array.from(invalidData)
+                    const [reorderedInvalidItem] = invalidItems.splice(event.source.index, 1)
+                    invalidItems.splice(event.destination.index, 0, reorderedInvalidItem)
+                    socket.emit("send_changeSameStatusInvalid", { invalidItems: invalidItems })
+                    setInvalidData(invalidItems)
+                    break
+                default:
+                    return
+            }
+        }
     }
 
     return (
@@ -289,7 +374,7 @@ const Board = () => {
                     <div className="board--ticket-status">
                         <div>
                             <p className="board--ticket-status-label">TO DO</p>
-                            {todoData.length > 1 || todoData.length == 0 ? 
+                            {todoData.length > 1 || todoData.length === 0 ? 
                                 <p className="board-ticket-status-count">{todoData.length} TASKS</p> 
                             : 
                                 <p className="board-ticket-status-count">{todoData.length} TASK</p>
@@ -333,7 +418,7 @@ const Board = () => {
                     <div className="board--ticket-status">
                         <div>
                             <p className="board--ticket-status-label">IN PROGRESS</p>
-                            {inprogressData.length > 1 || inprogressData.length == 0 ? 
+                            {inprogressData.length > 1 || inprogressData.length === 0 ? 
                                 <p className="board-ticket-status-count">{inprogressData.length} TASKS</p> 
                             : 
                                 <p className="board-ticket-status-count">{inprogressData.length} TASK</p>
@@ -376,7 +461,7 @@ const Board = () => {
                     <div className="board--ticket-status">
                         <div>
                             <p className="board--ticket-status-label">FOR TESTING</p>
-                            {fortestingData.length > 1 || fortestingData.length == 0 ? 
+                            {fortestingData.length > 1 || fortestingData.length === 0 ? 
                                 <p className="board-ticket-status-count">{fortestingData.length} TASKS</p> 
                             : 
                                 <p className="board-ticket-status-count">{fortestingData.length} TASK</p>
@@ -419,7 +504,7 @@ const Board = () => {
                     <div className="board--ticket-status">
                         <div>
                             <p className="board--ticket-status-label">DONE</p>
-                            {doneData.length > 1 || doneData.length == 0 ? 
+                            {doneData.length > 1 || doneData.length === 0 ? 
                                 <p className="board-ticket-status-count">{doneData.length} TASKS</p> 
                             : 
                                 <p className="board-ticket-status-count">{doneData.length} TASK</p>
@@ -462,7 +547,7 @@ const Board = () => {
                     <div className="board--ticket-status">
                         <div>
                             <p className="board--ticket-status-label">INVALID</p>
-                            {invalidData.length > 1 || invalidData.length == 0 ? 
+                            {invalidData.length > 1 || invalidData.length === 0 ? 
                                 <p className="board-ticket-status-count">{invalidData.length} TASKS</p> 
                             : 
                                 <p className="board-ticket-status-count">{invalidData.length} TASK</p>

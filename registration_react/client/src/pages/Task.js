@@ -11,7 +11,8 @@ const initialTaskDetailsForm = {
     reporter: "",
     start: "",
     deadline: "",
-    taskstatus: ""
+    taskstatus: "",
+    ordernum: "",
 }
 
 const initialCommentForm = {
@@ -24,7 +25,7 @@ const Task = () => {
 
     // TASK
     const [taskDetailsForm, setTaskDetailsForm] = useState(initialTaskDetailsForm)
-    const { name, description, assignee, reporter, start, deadline, taskstatus } = taskDetailsForm
+    const { name, description, assignee, reporter, start, deadline, taskstatus, ordernum } = taskDetailsForm
 
     // COMMENTS
     const [commentForm, setCommentForm] = useState(initialCommentForm)
@@ -139,6 +140,14 @@ const Task = () => {
         aTag.remove()
     }
 
+    const deleteTask = (taskid, ordernum, taskstatus) => {
+        if(window.confirm(`Are you sure that you want to delete task ${taskid}?`)){
+            axios.delete(`http://localhost:3001/task/delete/${taskid}/${ordernum}/${taskstatus}`)
+            toast.success("Task Deleted Successfully")
+            setTimeout(() => navigate(`/board`))
+        }
+    }
+
     return (
         <div className="form--background">
             <div className="form--task-details-container">
@@ -214,12 +223,15 @@ const Task = () => {
                         <p className="form--task-details-label">Deadline:</p>
                         <p className="form--task-details-deadline">{!deadline ? deadline: format(new Date(deadline), 'MMM dd, yyyy')}</p>
                     </div>
-                    <Link to={`/task/update/${taskid}`}>
-                    <button className="form--task-edit">EDIT</button>
-                    </Link>
-                    <Link to='/board'>
-                    <button className="form--task-back">BACK</button>
-                    </Link>
+                    <div className="form--task-buttons">
+                        <Link to={`/task/update/${taskid}`}>
+                        <button className="form--task-edit">EDIT</button>
+                        </Link>
+                        <button className="form--task-delete" onClick={() => deleteTask(taskid, ordernum, taskstatus)}>DELETE</button>
+                        <Link to='/board'>
+                        <button className="form--task-back">BACK</button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

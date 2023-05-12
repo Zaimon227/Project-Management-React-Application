@@ -345,16 +345,21 @@ router.put('/update/:taskid', async (req, res) => {
     res.status(200).json({ success:true })
 })
 
+router.delete('/delete/:taskid/:ordernum/:taskstatus', async (req, res) => {
+    const {taskid, ordernum, taskstatus} = req.params
 
-router.delete('/delete/:id', async (req, res) => {
-    const {id} = req.params
-    const deleteContact = await Contact.query().deleteById(id)
+    const knex = Task.knex()
 
-    if (!deleteContact) {
-        return res
-        .status(404)
-        .json({success: false, msg: `Deletion of contact with id ${id} has failed!` })
-    }
+    await knex.raw(`
+        DELETE FROM tbTasks
+        WHERE taskid = ${taskid}
+    `)
+
+    await knex.raw(`
+        UPDATE tbTasks
+        SET ordernum = ordernum - 1
+        WHERE (taskstatus = '${taskstatus}') AND (ordernum > ${ordernum})
+    `)
 
     return res.status(200).json( {success: true} )
 })
