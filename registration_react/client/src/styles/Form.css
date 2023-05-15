@@ -611,7 +611,7 @@
 
 .form--addattachments-container {
     position: fixed;
-    top: 8%;
+    top: -5%;
     left: 50%;
     transform: translate(-50%, 50%);
     background: #ffffff;
@@ -641,4 +641,26 @@
     font-weight: 600;
     color: #32a852;
     cursor: pointer;
+}
+
+.form--attachments-preview-list {
+    list-style-type: none;
+    background-color: #f1f1f1;
+    padding: 5px 20px;
+    margin: 10px 40px 30px 40px;
+    border-radius: 8px;
+    height: 100px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.form--attachments-preview-item {
+    font-size: 13px;
+    font-weight: 600;
+    color: #32a852;
+    background-color: #f1f1f1;
+    padding: 5px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
 }

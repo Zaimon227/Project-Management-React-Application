@@ -11,6 +11,7 @@ const AddAttachment = () => {
 
     // UPLOADING
     const [fileList, setFileList] = useState([])
+    const fileListArray = Object.values(fileList)
 
     useEffect(() => {
         if (!(localStorage.getItem("lsIsLoggedIn"))) {
@@ -20,7 +21,7 @@ const AddAttachment = () => {
     }, [])
 
     const handleInputChange = (event) => {
-        setFileList(event.target.files)
+        setFileList(...fileList, event.target.files)
     }
 
     const handleSubmit = async (event) => {
@@ -31,8 +32,6 @@ const AddAttachment = () => {
             const file = fileList[index]
             formData.append("file", file)
         }
-
-        console.log(formData)
 
         try {
             const result = await axios.put(`http://localhost:3001/task/attach/${taskid}`, formData)
@@ -45,6 +44,8 @@ const AddAttachment = () => {
         } 
     } 
 
+    console.log(fileListArray)
+
     return (
         <div className="form--background">
             <div className="form--addattachments-container">
@@ -56,7 +57,17 @@ const AddAttachment = () => {
                     {fileList.length > 1 &&
                         <p className="form--upload-status">{fileList.length} files selected</p>
                     }
-                    
+                </div>
+                <div>
+                    <ul className="form--attachments-preview-list">
+                    {fileListArray.length !== 0 &&
+                        fileListArray.map((item, index) => {
+                        return (
+                            <li className="form--attachments-preview-item" key={index}>{item.name}</li>
+                        )
+                        })
+                    }
+                    </ul>
                 </div>
                 <form onSubmit={handleSubmit} autoComplete="off" encType="multipart/form-data">
                     <input className="form--upload-profile-picture-input"
