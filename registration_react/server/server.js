@@ -54,6 +54,11 @@ io.on("connection", (socket) => {
     socket.on("send_changeDiffStatusInvalid", (data) => {
         socket.broadcast.emit("receive_changeDiffStatusInvalid", data)
     })
+
+    // SOCKET FOR CHANGE NOTIFICATION
+    socket.on("send_diffStatusNotification", (data) => {
+        socket.broadcast.emit("receive_diffStatusNotification", data)
+    })
 })
 
 // MORGAN LOGGER

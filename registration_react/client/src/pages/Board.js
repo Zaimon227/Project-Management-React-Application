@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { format } from 'date-fns'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import axios from 'axios'
@@ -47,6 +48,8 @@ const Board = () => {
 
     const navigate = useNavigate()
 
+    const isMountedRef = useRef(false);
+
     useEffect(() => {
         loadTodoData()
         loadInprogressData()
@@ -92,7 +95,16 @@ const Board = () => {
             setInvalidData(data.Column)
         })
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (!isMountedRef.current) {
+            // do some setup
+            socket.on("receive_diffStatusNotification", (data) => {
+                toast.info(`Task ${data.TaskId} has been moved from \"${data.Source}\" to \"${data.Destination}\"`) 
+            })
+            isMountedRef.current = true;
+          } else {
+            // do some cleanup
+          }
+
     }, [socket])
 
     const handleLogout = async () => {
@@ -102,6 +114,9 @@ const Board = () => {
 
     const handleOnDragEnd = async (event) => {
         console.log(event)
+
+        var Source
+        var Destination
 
         if (!event.destination) return
         if (event.destination.droppableId === event.source.droppableId &&
@@ -116,18 +131,23 @@ const Board = () => {
             switch (event.source.droppableId) {
                 case "todo":
                     sourceList = todoData
+                    Source = "To Do"
                     break
                 case "inprogress":
                     sourceList = inprogressData
+                    Source = "In Progress"
                     break
                 case "fortesting":
                     sourceList = fortestingData
+                    Source = "For Testing"
                     break
                 case "done":
                     sourceList = doneData
+                    Source = "Done"
                     break
                 case "invalid":
                     sourceList = invalidData
+                    Source = "Invalid"
                     break
                 default:
                     return
@@ -136,18 +156,23 @@ const Board = () => {
             switch (event.destination.droppableId) {
                 case "todo":
                     destinationList = todoData
+                    Destination = "To Do"
                     break
                 case "inprogress":
                     destinationList = inprogressData
+                    Destination = "In Progress"
                     break
                 case "fortesting":
                     destinationList = fortestingData
+                    Destination = "For Testing"
                     break
                 case "done":
                     destinationList = doneData
+                    Destination = "Done"
                     break
                 case "invalid":
                     destinationList = invalidData
+                    Destination = "Invalid"
                     break
                 default:
                     return
@@ -206,6 +231,8 @@ const Board = () => {
                 default:
                     return
             }
+
+            socket.emit("send_diffStatusNotification", { Source: Source, Destination: Destination, TaskId: event.draggableId})
         } 
         // THIS LOGIC WILL RUN IF REORDERING TO THE SAME STATUS
         else {
