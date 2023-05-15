@@ -48,7 +48,6 @@ const AddTask = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         const reporter = username
-        console.log(reporter)
         if(!name || !description || !assignee || !reporter || !deadline) {
             toast.error("Missing some input field/s!")
         } else {

@@ -25,7 +25,6 @@ const AddAttachment = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(fileList)
         const formData = new FormData()
 
         for (let index = 0; index < fileList.length; index++) {
@@ -57,17 +56,6 @@ const AddAttachment = () => {
                     {fileList.length > 1 &&
                         <p className="form--upload-status">{fileList.length} files selected</p>
                     }
-                    {/* <div>
-                        {fileList !== null &&
-                            fileList.map((item, index) => {
-                            return (
-                                <div className="attachment-component" key={index}>
-                                    <p className="attachment-filename">{item.file.name}</p>
-                                </div>
-                            )
-                            })
-                        }
-                    </div> */}
                     
                 </div>
                 <form onSubmit={handleSubmit} autoComplete="off" encType="multipart/form-data">

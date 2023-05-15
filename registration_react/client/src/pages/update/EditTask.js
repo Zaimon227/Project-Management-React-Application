@@ -35,9 +35,6 @@ const EditTask = () => {
         .then((resp) => setOldTaskStatus(resp.data))
     }
 
-    console.log("oldTaskStatus")
-    console.log(oldTaskStatus)
-
     // User fetch for select options
     const [userData, setUserData] = useState([])
 

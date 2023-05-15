@@ -21,7 +21,6 @@ const Home = () => {
 
     return (
         <div className="home--main">
-            {/* --- Componentable?? --- */}
             <div className="menubar">
                 <div className="menubar--leftside">
                     <div className="menubar--profile-container">
